@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
@@ -11,6 +11,14 @@
             backward-compatibility can go here.
         -->
     </style>
+
+    <style name="CoolButton">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_margin">3dp</item>
+        <item name="android:background">#B1F5E6</item>
+    </style>
+
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
