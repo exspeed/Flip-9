@@ -1,5 +1,7 @@
 package com.labrats.android.flip9;
 
+import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,13 +15,15 @@ import android.widget.TextView;
 
 public class FlipNineFragment extends Fragment {
 
-	private int mGameNumber;
-	private int[] mTiles = new int[9];
-	private Button[] mTileButtons = new Button[9];
-	private String mMoveString;
+	private int mGameNumber; // number between 1-511 to represent the level
+	private int[] mTiles = new int[9]; // array representation of gameNumber
+	private Button[] mTileButtons = new Button[9]; // the references of the 9
+													// buttons
+	private String mMoveString; // "Move:" String
 	private int mCounter = 0; // the number of time the user press a tile
-
 	private TextView mMoveTextView;
+
+	private MediaPlayer mSoundEffect;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,6 +61,15 @@ public class FlipNineFragment extends Fragment {
 		}
 	}
 
+	@Override
+	public void onPause() {
+		super.onPause();
+		if (mSoundEffect != null) {
+			mSoundEffect.release();
+			mSoundEffect = null;
+		}
+	}
+
 	private class TileListener implements OnClickListener {
 
 		private int position;
@@ -68,7 +81,8 @@ public class FlipNineFragment extends Fragment {
 		@Override
 		public void onClick(View v) {
 			mCounter++;
-			mMoveTextView.setText(mMoveString+ mCounter);
+			mMoveTextView.setText(mMoveString + mCounter);
+			playSound();
 			
 			changeColor(position);
 			changeColor(position - 3);
@@ -78,6 +92,23 @@ public class FlipNineFragment extends Fragment {
 				changeColor(position + 1);
 			changeColor(position + 3);
 
+		}
+
+		private void playSound() {
+			if (mSoundEffect == null) {
+				mSoundEffect = MediaPlayer.create(getActivity(), R.raw.mouse1);
+			}
+			mSoundEffect.setOnCompletionListener(new OnCompletionListener() {
+				@Override
+				public void onCompletion(MediaPlayer mp) {
+					if (mSoundEffect != null) {
+						mSoundEffect.release();
+						mSoundEffect = null;
+					}
+
+				}
+			});
+			mSoundEffect.start();
 		}
 
 		private void changeColor(int index) {
