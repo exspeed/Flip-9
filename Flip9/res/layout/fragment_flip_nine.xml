@@ -6,11 +6,11 @@
     android:stretchColumns="*" >
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/moveTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="20dp"
-        android:text="Large Text"
+        android:text="@string/moves"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <include
@@ -32,22 +32,22 @@
         android:padding="20dp" >
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/cheatButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Button" />
+            android:text="@string/cheat" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/restartButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Button" />
+            android:text="@string/restart" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/undoButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Button" />
+            android:text="@string/undo" />
 
     </LinearLayout>
 

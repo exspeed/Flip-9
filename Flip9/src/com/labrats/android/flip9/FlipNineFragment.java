@@ -50,6 +50,7 @@ public class FlipNineFragment extends Fragment {
 	}
 
 	private class TileListener implements OnClickListener {
+
 		private int position;
 
 		public TileListener(int index) {
@@ -58,6 +59,7 @@ public class FlipNineFragment extends Fragment {
 
 		@Override
 		public void onClick(View v) {
+
 			changeColor(position);
 			changeColor(position - 3);
 			if (position != 3 && position != 6)
