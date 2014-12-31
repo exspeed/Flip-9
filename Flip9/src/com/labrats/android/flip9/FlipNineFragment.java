@@ -9,12 +9,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.TextView;
 
 public class FlipNineFragment extends Fragment {
 
 	private int mGameNumber;
 	private int[] mTiles = new int[9];
 	private Button[] mTileButtons = new Button[9];
+	private String mMoveString;
+	private int mCounter = 0; // the number of time the user press a tile
+
+	private TextView mMoveTextView;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -23,6 +28,9 @@ public class FlipNineFragment extends Fragment {
 				.inflate(R.layout.fragment_flip_nine, container, false);
 
 		initialize();
+
+		mMoveTextView = (TextView) v.findViewById(R.id.moveTextView);
+		mMoveString = mMoveTextView.getText().toString();
 
 		TableLayout tableLayout = (TableLayout) v
 				.findViewById(R.id.fragment_flip_nine_tableLayout);
@@ -59,7 +67,9 @@ public class FlipNineFragment extends Fragment {
 
 		@Override
 		public void onClick(View v) {
-
+			mCounter++;
+			mMoveTextView.setText(mMoveString+ mCounter);
+			
 			changeColor(position);
 			changeColor(position - 3);
 			if (position != 3 && position != 6)
