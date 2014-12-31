@@ -1,5 +1,7 @@
 package com.labrats.android.flip9;
 
+import java.util.Stack;
+
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
@@ -22,7 +24,8 @@ public class FlipNineFragment extends Fragment {
 	private String mMoveString; // "Move:" String
 	private int mCounter = 0; // the number of time the user press a tile
 	private TextView mMoveTextView;
-
+	private Button mUndoButton;
+	private Stack<Integer> mStackHistory;
 	private MediaPlayer mSoundEffect;
 
 	@Override
@@ -48,6 +51,21 @@ public class FlipNineFragment extends Fragment {
 				index++;
 			}
 		}
+
+		mUndoButton = (Button) v.findViewById(R.id.undoButton);
+		mUndoButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if (mStackHistory.isEmpty())
+					return;
+				mCounter--;
+				int lastMove = mStackHistory.pop();
+				mMoveTextView.setText(mMoveString + mCounter);
+				updateChange(lastMove);
+			}
+		});
+
 		return v;
 	}
 
@@ -59,6 +77,8 @@ public class FlipNineFragment extends Fragment {
 			mTiles[i] = temp & 1;
 			temp = temp >> 1;
 		}
+		mStackHistory = new Stack<Integer>();
+
 	}
 
 	@Override
@@ -67,6 +87,46 @@ public class FlipNineFragment extends Fragment {
 		if (mSoundEffect != null) {
 			mSoundEffect.release();
 			mSoundEffect = null;
+		}
+	}
+
+	private int getBitmask(int num) {
+		switch (num) {
+		case 0:
+			return 11;
+		case 1:
+			return 23;
+		case 2:
+			return 38;
+		case 3:
+			return 89;
+		case 4:
+			return 186;
+		case 5:
+			return 308;
+		case 6:
+			return 200;
+		case 7:
+			return 464;
+		case 8:
+			return 416;
+		default:
+			return 0; // error
+		}
+	}
+
+	private void updateChange(int move) {
+		mGameNumber = getBitmask(move) ^ mGameNumber;
+		int temp = mGameNumber;
+		for (int i = 0; i < 9; i++) {
+			if ((temp & 1) == 1)
+				mTileButtons[i]
+						.setBackgroundResource(R.drawable.button_shape_normal);
+			else {
+				mTileButtons[i]
+						.setBackgroundResource(R.drawable.button_shape_flip);
+			}
+			temp >>= 1;
 		}
 	}
 
@@ -82,15 +142,9 @@ public class FlipNineFragment extends Fragment {
 		public void onClick(View v) {
 			mCounter++;
 			mMoveTextView.setText(mMoveString + mCounter);
+			mStackHistory.push(position);
 			playSound();
-			
-			changeColor(position);
-			changeColor(position - 3);
-			if (position != 3 && position != 6)
-				changeColor(position - 1);
-			if (position != 2 && position != 5)
-				changeColor(position + 1);
-			changeColor(position + 3);
+			updateChange(position);
 
 		}
 
@@ -111,18 +165,6 @@ public class FlipNineFragment extends Fragment {
 			mSoundEffect.start();
 		}
 
-		private void changeColor(int index) {
-			if (index >= 0 && index <= mTileButtons.length - 1) {
-				mTiles[index] = mTiles[index] ^ 1;
-				if (mTiles[index] == 1)
-					mTileButtons[index]
-							.setBackgroundResource(R.drawable.button_shape_normal);
-				else {
-					mTileButtons[index]
-							.setBackgroundResource(R.drawable.button_shape_flip);
-				}
-
-			}
-		}
+	
 	}
 }
