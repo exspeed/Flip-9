@@ -103,9 +103,9 @@ vector<int> findBFS(queue<node> &gamestate){
     for(int i = 1; i <=9; i++){
       node newNode(getBitmask(i) ^ val);
       if (possibleState[newNode.position] == false){
-	newNode.history = removedNode.history;
-	newNode.history.push_back(i);
-	gamestate.push(newNode);
+			newNode.history = removedNode.history;
+			newNode.history.push_back(i);
+			gamestate.push(newNode);
 	}
     }
   }
