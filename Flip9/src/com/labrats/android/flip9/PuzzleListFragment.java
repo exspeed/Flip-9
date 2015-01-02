@@ -10,22 +10,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 public class PuzzleListFragment extends ListFragment {
 
-	private ArrayList<FlipData> mUserData;
+	private ArrayList<FlipData> mLevelList;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mUserData = new ArrayList<FlipData>();
-		for (int i = 1; i <= 30; i++) {
-			FlipData data =new FlipData(53 * i % 512);
-			data.setTitle("Puzzle "+ i);
-			mUserData.add(data);
-			
-		}
-		setListAdapter(new LevelAdapter(mUserData));
+		mLevelList = UserData.get(getActivity()).getLevelList();
+
+		setListAdapter(new LevelAdapter(mLevelList));
 	}
 
 	@Override
@@ -39,11 +36,17 @@ public class PuzzleListFragment extends ListFragment {
 		FlipData level = (FlipData) getListAdapter().getItem(position);
 		Intent i = new Intent(getActivity(), FlipNineActivity.class);
 
-		i.putExtra(FlipNineFragment.EXTRA_GAME_NUMBER, level.getStart());
+		i.putExtra(FlipNineFragment.EXTRA_GAME_ID, level.getId());
 		startActivity(i);
 
 	}
 
+	@Override
+	public void onResume() {
+		super.onResume();
+		((LevelAdapter)getListAdapter()).notifyDataSetChanged();
+	}
+	
 	private class LevelAdapter extends ArrayAdapter<FlipData> {
 
 		public LevelAdapter(ArrayList<FlipData> data) {
@@ -61,6 +64,10 @@ public class PuzzleListFragment extends ListFragment {
 					.findViewById(R.id.level_list_textView);
 			String title = getItem(position).getTitle();
 			puzzleTextView.setText(title);
+
+			RatingBar puzzleRatingBar = (RatingBar) convertView
+					.findViewById(R.id.level_list_ratingBar);
+			puzzleRatingBar.setRating(getItem(position).getStars());
 
 			return convertView;
 		}

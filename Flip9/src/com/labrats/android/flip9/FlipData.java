@@ -2,60 +2,106 @@ package com.labrats.android.flip9;
 
 import java.util.UUID;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class FlipData {
+
+	public static final String JSON_BESTSCORE = "best score";
+	public static final String JSON_STARS = "stars";
+	public static final String JSON_START = "start";
+	public static final String JSON_TITLE = "title";
+	public static final String JSON_ID = "id";
+
 	private UUID mId;
-	private int mBestScore = -1;
-	private int mStars;
-	private int mPuzzle;
-	private final int mStart;
+	private int mBestScore = 0;
+	private int mStars = 0;
+	private int mCurrentState;
+	private int mStart;
 	private String mTitle;
 
 	public FlipData(int puzzle) {
-		mPuzzle = puzzle;
 		mStart = puzzle;
+		mCurrentState = puzzle;
 		mId = UUID.randomUUID();
 	}
 
-	public void setTitle(String title){
+	public FlipData(JSONObject json) throws JSONException {
+
+		mStart = (Integer) json.get(JSON_START);
+		mCurrentState = mStart;
+		mStars = (Integer) json.get(JSON_STARS);
+		mBestScore = (Integer) json.get(JSON_BESTSCORE);
+		mTitle = (String) json.get(JSON_TITLE);
+		mId = UUID.fromString((String) json.get(JSON_ID));
+
+	}
+
+	public JSONObject toJSON() throws JSONException {
+		JSONObject json = new JSONObject();
+
+		json.put(JSON_STARS, mStars);
+		json.put(JSON_BESTSCORE, mBestScore);
+		json.put(JSON_START, mStart);
+		json.put(JSON_TITLE, mTitle);
+		json.put(JSON_ID, mId.toString());
+
+		return json;
+	}
+
+	public void setTitle(String title) {
 		mTitle = title;
 	}
-	
-	public String getTitle(){
+
+	public String getTitle() {
 		return mTitle;
 	}
-	
-	public UUID getId(){
+
+	public UUID getId() {
 		return mId;
 	}
-	
-	public int getStart(){
+
+	public int getStart() {
 		return mStart;
 	}
-	
+
 	public int getBestScore() {
 		return mBestScore;
 	}
 
 	public void setBestScore(int bestScore) {
+		if (mBestScore == 0)
+			mBestScore = bestScore;
+
+		if (mBestScore < bestScore)
+			return;
+
 		mBestScore = bestScore;
+		setStars();
+
 	}
 
 	public int getStars() {
 		return mStars;
 	}
 
-	public void setStars(int stars) {
-		mStars = stars;
+	private void setStars() {
+		if (mBestScore < 10)
+			mStars = 3;
+		else if (mBestScore < 30)
+			mStars = 2;
+		else
+			mStars = 1;
 	}
 
 	public int getCurrentState() {
-		return mPuzzle;
+		return mCurrentState;
 	}
-	
-	public void flipTile(int index){
-		mPuzzle = getBitmask(index) ^ mPuzzle;
+
+	public void flipTile(int index) {
+		mCurrentState = getBitmask(index) ^ mCurrentState;
 	}
-	
+
 	public static int getBitmask(int num) {
 		switch (num) {
 		case 0:

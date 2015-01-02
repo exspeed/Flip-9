@@ -1,11 +1,12 @@
 package com.labrats.android.flip9;
 
 import java.util.Stack;
-
+import java.util.UUID;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,10 +15,11 @@ import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class FlipNineFragment extends Fragment {
 
-	public static final String EXTRA_GAME_NUMBER = "game number";
+	public static final String EXTRA_GAME_ID = "game id";
 
 	private FlipData mFlipData;
 	private Button[] mTileButtons = new Button[9]; // the references of the 9 //
@@ -29,11 +31,12 @@ public class FlipNineFragment extends Fragment {
 	private Stack<Integer> mStackHistory;
 	private MediaPlayer mSoundEffect;
 
-	public static FlipNineFragment newInstance(int gameNumber) {
+	public static FlipNineFragment newInstance(UUID gameId) {
 		Bundle info = new Bundle();
-		info.putInt(EXTRA_GAME_NUMBER, gameNumber);
+		info.putSerializable(EXTRA_GAME_ID, gameId);
 		FlipNineFragment fragment = new FlipNineFragment();
 		fragment.setArguments(info);
+
 		return fragment;
 	}
 
@@ -57,6 +60,7 @@ public class FlipNineFragment extends Fragment {
 				mTileButtons[index].setOnClickListener(new TileListener(index));
 				index++;
 			}
+
 		}
 
 		initialize();
@@ -80,8 +84,12 @@ public class FlipNineFragment extends Fragment {
 	}
 
 	private void initialize() {
-		// TODO: mGameNumber should be retrieved from listFragment
-		mFlipData = new FlipData(getArguments().getInt(EXTRA_GAME_NUMBER));
+		UUID gameId = (UUID) getArguments().getSerializable(EXTRA_GAME_ID);
+		for (FlipData someLevel : UserData.get(getActivity()).getLevelList()) {
+			if (someLevel.getId().equals(gameId)) {
+				mFlipData = someLevel;
+			}
+		}
 		mStackHistory = new Stack<Integer>();
 		updateChange();
 	}
@@ -100,12 +108,25 @@ public class FlipNineFragment extends Fragment {
 		for (int i = 0; i < 9; i++) {
 			if ((temp & 1) == 1)
 				mTileButtons[i]
-						.setBackgroundResource(R.drawable.button_shape_normal);
+						.setBackgroundResource(R.drawable.button_shape_flip);
 			else {
 				mTileButtons[i]
-						.setBackgroundResource(R.drawable.button_shape_flip);
+						.setBackgroundResource(R.drawable.button_shape_normal);
 			}
 			temp >>= 1;
+		}
+	}
+
+	private void checkCompleted() {
+		if (mFlipData.getCurrentState() == 0) {
+			mFlipData.setBestScore(mCounter);
+			try {
+				UserData.get(getActivity()).saveData();
+			} catch (Exception e) {
+				Log.d("FlipNineFragment", "Erro in saving: " + e);
+			}
+			Toast.makeText(getActivity(), "Saving", Toast.LENGTH_SHORT).show();
+
 		}
 	}
 
@@ -125,6 +146,7 @@ public class FlipNineFragment extends Fragment {
 			playSound();
 			mFlipData.flipTile(position);
 			updateChange();
+			checkCompleted();
 
 		}
 
