@@ -2,16 +2,20 @@ package com.labrats.android.flip9;
 
 import java.util.Stack;
 import java.util.UUID;
+
+import android.app.ActionBar.LayoutParams;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.PopupWindow;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -28,6 +32,7 @@ public class FlipNineFragment extends Fragment {
 	private int mCounter = 0; // the number of time the user press a tile
 	private TextView mMoveTextView;
 	private Button mUndoButton;
+	private Button mCheatButton;
 	private Stack<Integer> mStackHistory;
 	private MediaPlayer mSoundEffect;
 
@@ -77,6 +82,29 @@ public class FlipNineFragment extends Fragment {
 				mMoveTextView.setText(mMoveString + mCounter);
 				mFlipData.flipTile(lastMove);
 				updateChange();
+			}
+		});
+
+		//Cheat Button
+		mCheatButton = (Button) v.findViewById(R.id.cheatButton);
+		mCheatButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Cheat g = new Cheat();
+				PopupWindow popup = new PopupWindow(getActivity());
+				popup.getBackground().setAlpha(50);
+				TextView textV = new TextView(getActivity());
+                LayoutParams linearparams1 = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+                textV.setLayoutParams(linearparams1);
+                textV.setText("To solve the board, tap the following tiles: " + g.getCheat(mFlipData.getCurrentState()));
+                popup.setContentView(textV);
+                popup.setWidth(600);
+                popup.setHeight(337);
+                popup.showAtLocation(mCheatButton, Gravity.CENTER_HORIZONTAL, 25, 25);
+                //To close, tap outside the box
+                popup.setFocusable(true);
+                popup.update();			
 			}
 		});
 
