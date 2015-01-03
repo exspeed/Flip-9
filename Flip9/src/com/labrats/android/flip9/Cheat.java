@@ -1,59 +1,75 @@
-package com.labrats.android.flip9;
-
+import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.ArrayDeque;
 
-import android.util.Log;
-
-public class Cheat {
-	// Node class from cheat.txt
-	public class Node {
-		public int position;
-
-		ArrayList<Integer> history;
-
-		public Node(int p) {
-			this.position = p;
-			history = new ArrayList<Integer>();
+public class C {
+	
+	public static void main(String[] args){
+		init();
+		getCheat(24);
+		for(int i:ans){
+			System.out.print(i);
+			System.out.print(" ");
 		}
+		System.out.println();
 	}
 
-	public ArrayList<Integer> getCheat(int currentState) {
+	private static final int[] masks = { 11, 23, 38, 89, 186, 308, 200, 464,
+			416 };
 
-		LinkedList<Node> gamestate = new LinkedList<Node>();
-		Node first = new Node(currentState);
-		gamestate.add(first);
+	private static boolean[] visited;
+	private static int[] parent;
+	private static ArrayList<Integer> ans;
 
-		return findBFS(gamestate);
+	/**
+	 * initializes this class static methods
+	 * MUST be called before anything else!
+	 */
+	public static void init() {
+		visited = new boolean[512];
+		parent=new int[512];
+		ans = new ArrayList<Integer>();
 	}
 
-
-	private ArrayList<Integer> findBFS(LinkedList<Node> gamestate) {
-		boolean[] possibleState = new boolean[512];
-		if (gamestate.isEmpty()) {
-			Log.e("Cheat", "Empty gamestate");
-			return null;
+	/**
+	 * returns the arraylist that contains the list of MASKS you should use
+	 */
+	public static ArrayList<Integer> getCheat(int c) {
+		Arrays.fill(visited, false);
+		Arrays.fill(parent, -1);
+		ans.clear();
+		bfs(c);
+		int t=0;
+		while(t!=-1){
+			//TODO
+			//you might wanna use a different data struct
+			//or have the arraylist in reverse order
+			//so insert can be done in 0(1) time
+			//not the biggest deal tho since there are only few inserts
+			ans.add(0, t);
+			t=parent[t];
 		}
-		boolean solution = false;
-		while (!solution) {
-			Node removedNode = gamestate.remove();
-			int val = removedNode.position;
-			possibleState[val] = true;
-			if (val == 0) {
-				return removedNode.history;
+		return ans;
+	}
+
+	private static void bfs(int c) {
+		ArrayDeque<Integer> q=new ArrayDeque<Integer>(10);
+		visited[c] = true;
+		q.add(c);
+		while (!q.isEmpty()) {
+			int t = q.poll();
+			if (t == 0) {
+				return;
 			}
-
-			for (int i = 0; i < 9; i++) {
-				int newState = FlipData.getBitmask(i) ^ val;
-				if (possibleState[newState] == false) {
-					Node node1 = new Node(newState);
-					node1.history = new ArrayList<Integer>(removedNode.history);
-					node1.history.add(i + 1);
-					gamestate.addLast(node1);
+			for(int i:masks){
+				if(!visited[t^i]){
+					visited[t^i]=true;
+					parent[t^i]=t;
+					q.add(t^i);
 				}
 			}
 		}
-		return null;
-
 	}
 }
