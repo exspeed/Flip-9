@@ -8,7 +8,7 @@ public class Cheat {
 	
 	public static void main(String[] args){
 		init();
-		getCheat(24);
+		getCheat(341);
 		for(int i:ans){
 			System.out.print(i);
 			System.out.print(" ");
@@ -20,7 +20,7 @@ public class Cheat {
 			416 };
 
 	private static boolean[] visited;
-	private static int[] parent;
+	private static int[] parent, button;
 	private static ArrayList<Integer> ans;
 
 	/**
@@ -30,25 +30,22 @@ public class Cheat {
 	public static void init() {
 		visited = new boolean[512];
 		parent=new int[512];
+		button=new int[512];
 		ans = new ArrayList<Integer>();
 	}
 
 	/**
-	 * returns the arraylist that contains the list of MASKS you should use
+	 * returns the button presses
 	 */
 	public static ArrayList<Integer> getCheat(int c) {
 		Arrays.fill(visited, false);
 		Arrays.fill(parent, -1);
+		Arrays.fill(button, -1);
 		ans.clear();
 		bfs(c);
 		int t=0;
 		while(t!=-1){
-			//TODO
-			//you might wanna use a different data struct
-			//or have the arraylist in reverse order
-			//so insert can be done in 0(1) time
-			//not the biggest deal tho since there are only few inserts
-			ans.add(0, t);
+			ans.add(button[t]);
 			t=parent[t];
 		}
 		return ans;
@@ -63,12 +60,15 @@ public class Cheat {
 			if (t == 0) {
 				return;
 			}
+			int n=9;
 			for(int i:masks){
 				if(!visited[t^i]){
 					visited[t^i]=true;
 					parent[t^i]=t;
+					button[t^i]=n;
 					q.add(t^i);
 				}
+				n--;
 			}
 		}
 	}
