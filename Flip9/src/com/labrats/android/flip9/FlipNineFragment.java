@@ -30,6 +30,7 @@ public class FlipNineFragment extends Fragment {
 	private Button[] mTileButtons = new Button[9]; // the references of the 9 //
 													// // buttons
 	private String mMoveString; // "Move:" String
+	private String mBestString; // don't change these strings
 	private int mCounter = 0; // the number of time the user press a tile
 	private TextView mMoveTextView;
 	private TextView mBestTextView;
@@ -56,7 +57,8 @@ public class FlipNineFragment extends Fragment {
 				.inflate(R.layout.fragment_flip_nine, container, false);
 
 		mMoveTextView = (TextView) v.findViewById(R.id.moveTextView);
-		mMoveString = mMoveTextView.getText().toString(); // kind of bad??
+		mMoveString = mMoveTextView.getText().toString() + " "; // kind of bad??
+		mMoveTextView.setText(mMoveString + "0");
 
 		TableLayout tableLayout = (TableLayout) v
 				.findViewById(R.id.fragment_flip_nine_tableLayout);
@@ -73,17 +75,18 @@ public class FlipNineFragment extends Fragment {
 		}
 
 		initialize();
-		
+
 		mTitleTextView = (TextView) v.findViewById(R.id.titleTextView);
 		mTitleTextView.setText(mFlipData.getTitle());
-				
-		
+
 		mBestTextView = (TextView) v.findViewById(R.id.bestTextView);
-		if(mFlipData.getBestScore() != 0){
-			mBestTextView.setText(mBestTextView.getText()+ " " + mFlipData.getBestScore());
+		if (mFlipData.getBestScore() != 0) {
+			mBestString = mBestTextView.getText().toString();
+
+			mBestTextView.setText(mBestString + " "
+					+ mFlipData.getBestScore());
 		}
-			
-			
+
 		mUndoButton = (Button) v.findViewById(R.id.undoButton);
 		mUndoButton.setOnClickListener(new OnClickListener() {
 
@@ -112,7 +115,8 @@ public class FlipNineFragment extends Fragment {
 				LayoutParams linearparams1 = new LayoutParams(
 						LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 				textV.setLayoutParams(linearparams1);
-				ArrayList<Integer> answer = Cheat.getCheat(mFlipData.getCurrentState());
+				ArrayList<Integer> answer = Cheat.getCheat(mFlipData
+						.getCurrentState());
 				textV.setText("To solve the board, tap the following tiles: "
 						+ answer);
 				popup.setContentView(textV);
@@ -157,7 +161,7 @@ public class FlipNineFragment extends Fragment {
 		// in case the user goes back to the same level
 		// and currentState was saved, restart() prevents cheating
 		mFlipData.restart();
-		
+
 		mStackHistory = new Stack<Integer>();
 		updateChange();
 	}
@@ -194,6 +198,8 @@ public class FlipNineFragment extends Fragment {
 			} catch (Exception e) {
 				Log.d("FlipNineFragment", "Erro in saving: " + e);
 			}
+			mBestTextView.setText(mBestString + " "
+					+ mFlipData.getBestScore());
 			Toast.makeText(getActivity(), "Saving", Toast.LENGTH_SHORT).show();
 
 		}
