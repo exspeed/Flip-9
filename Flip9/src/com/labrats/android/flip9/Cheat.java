@@ -8,8 +8,7 @@ public class Cheat {
 	
 	public static void main(String[] args){
 		init();
-		getCheat(341);
-		for(int i:ans){
+		for(int i:getCheat(71)){
 			System.out.print(i);
 			System.out.print(" ");
 		}
@@ -60,7 +59,7 @@ public class Cheat {
 			if (t == 0) {
 				return;
 			}
-			int n=9;
+			int n=0;
 			for(int i:masks){
 				if(!visited[t^i]){
 					visited[t^i]=true;
@@ -68,7 +67,7 @@ public class Cheat {
 					button[t^i]=n;
 					q.add(t^i);
 				}
-				n--;
+				n++;
 			}
 		}
 	}
