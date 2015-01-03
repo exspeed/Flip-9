@@ -139,7 +139,7 @@ public class FlipNineFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				mCounter = 0;
-				mMoveTextView.setText(mMoveString);
+				mMoveTextView.setText(mMoveString+ "0");
 				mFlipData.restart();
 				updateChange();
 				mStackHistory.clear();
