@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.ArrayDeque;
 
-public class C {
+public class Cheat {
 	
 	public static void main(String[] args){
 		init();
