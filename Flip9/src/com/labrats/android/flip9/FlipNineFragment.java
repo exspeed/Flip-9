@@ -80,11 +80,9 @@ public class FlipNineFragment extends Fragment {
 		mTitleTextView.setText(mFlipData.getTitle());
 
 		mBestTextView = (TextView) v.findViewById(R.id.bestTextView);
+		mBestString = mBestTextView.getText().toString();
 		if (mFlipData.getBestScore() != 0) {
-			mBestString = mBestTextView.getText().toString();
-
-			mBestTextView.setText(mBestString + " "
-					+ mFlipData.getBestScore());
+			mBestTextView.setText(mBestString + " " + mFlipData.getBestScore());
 		}
 
 		mUndoButton = (Button) v.findViewById(R.id.undoButton);
@@ -144,6 +142,7 @@ public class FlipNineFragment extends Fragment {
 				mMoveTextView.setText(mMoveString);
 				mFlipData.restart();
 				updateChange();
+				mStackHistory.clear();
 			}
 		});
 
@@ -198,8 +197,7 @@ public class FlipNineFragment extends Fragment {
 			} catch (Exception e) {
 				Log.d("FlipNineFragment", "Erro in saving: " + e);
 			}
-			mBestTextView.setText(mBestString + " "
-					+ mFlipData.getBestScore());
+			mBestTextView.setText(mBestString + " " + mFlipData.getBestScore());
 			Toast.makeText(getActivity(), "Saving", Toast.LENGTH_SHORT).show();
 
 		}
