@@ -27,13 +27,13 @@ public class FlipNineFragment extends Fragment {
 	public static final String EXTRA_GAME_ID = "game id";
 
 	private FlipData mFlipData;
-	private Button[] mTileButtons = new Button[9]; // the references of the 9 //
-													// buttons
+	private Button[] mTileButtons = new Button[9]; // the references of the 9 //											// buttons
 	private String mMoveString; // "Move:" String
 	private int mCounter = 0; // the number of time the user press a tile
 	private TextView mMoveTextView;
 	private Button mUndoButton;
 	private Button mCheatButton;
+	private Button mRestartButton;
 	private Stack<Integer> mStackHistory;
 	private MediaPlayer mSoundEffect;
 
@@ -99,7 +99,8 @@ public class FlipNineFragment extends Fragment {
 				LayoutParams linearparams1 = new LayoutParams(
 						LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 				textV.setLayoutParams(linearparams1);
-				ArrayList<Integer> answer = g.getCheat(mFlipData.getCurrentState());
+				ArrayList<Integer> answer = g.getCheat(mFlipData
+						.getCurrentState());
 				textV.setText("To solve the board, tap the following tiles: "
 						+ answer);
 				popup.setContentView(textV);
@@ -111,10 +112,22 @@ public class FlipNineFragment extends Fragment {
 				popup.setFocusable(true);
 				popup.update();
 
-				for(int num: answer){
-					mTileButtons[num-1].setText("*");
+				for (int num : answer) {
+					mTileButtons[num - 1].setText("*");
 				}
-					
+
+			}
+		});
+
+		mRestartButton = (Button) v.findViewById(R.id.restartButton);
+		mRestartButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				mCounter = 0;
+				mMoveTextView.setText(mMoveString);
+				mFlipData.restart();
+				updateChange();
 			}
 		});
 
@@ -122,6 +135,7 @@ public class FlipNineFragment extends Fragment {
 	}
 
 	private void initialize() {
+		// find FlipData that corresponds to the puzzle
 		UUID gameId = (UUID) getArguments().getSerializable(EXTRA_GAME_ID);
 		for (FlipData someLevel : UserData.get(getActivity()).getLevelList()) {
 			if (someLevel.getId().equals(gameId)) {
@@ -155,6 +169,7 @@ public class FlipNineFragment extends Fragment {
 		}
 	}
 
+	// TODO: make a pop up window to show user's result
 	private void checkCompleted() {
 		if (mFlipData.getCurrentState() == 0) {
 			mFlipData.setBestScore(mCounter);
@@ -185,6 +200,10 @@ public class FlipNineFragment extends Fragment {
 			mFlipData.flipTile(position);
 			updateChange();
 			checkCompleted();
+
+			// remove " * "
+			if (mTileButtons[position].getText().equals("*"))
+				mTileButtons[position].setText("");
 
 		}
 

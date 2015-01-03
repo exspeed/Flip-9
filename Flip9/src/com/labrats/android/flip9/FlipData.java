@@ -17,6 +17,8 @@ public class FlipData {
 	private int mBestScore = 0;
 	private int mStars = 0;
 	private int mCurrentState;
+	
+	// mStart needs to final somehow... no setter method?
 	private int mStart;
 	private String mTitle;
 
@@ -100,6 +102,10 @@ public class FlipData {
 
 	public void flipTile(int index) {
 		mCurrentState = getBitmask(index) ^ mCurrentState;
+	}
+	
+	public void restart(){
+		mCurrentState = mStart;
 	}
 
 	public static int getBitmask(int num) {
