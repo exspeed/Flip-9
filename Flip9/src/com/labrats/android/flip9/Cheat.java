@@ -44,8 +44,9 @@ public class Cheat {
 			}
 
 			for (int i = 0; i < 9; i++) {
-				Node node1 = new Node(FlipData.getBitmask(i) ^ val);
-				if (possibleState[node1.position] == false) {
+				int newState = FlipData.getBitmask(i) ^ val;
+				if (possibleState[newState] == false) {
+					Node node1 = new Node(newState);
 					node1.history = new ArrayList<Integer>(removedNode.history);
 					node1.history.add(i + 1);
 					gamestate.addLast(node1);
@@ -55,5 +56,4 @@ public class Cheat {
 		return null;
 
 	}
-
 }

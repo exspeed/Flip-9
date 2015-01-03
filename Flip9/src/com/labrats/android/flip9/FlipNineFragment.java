@@ -1,5 +1,6 @@
 package com.labrats.android.flip9;
 
+import java.util.ArrayList;
 import java.util.Stack;
 import java.util.UUID;
 
@@ -85,26 +86,35 @@ public class FlipNineFragment extends Fragment {
 			}
 		});
 
-		//Cheat Button
+		// Cheat Button
 		mCheatButton = (Button) v.findViewById(R.id.cheatButton);
 		mCheatButton.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				Cheat g = new Cheat();
 				PopupWindow popup = new PopupWindow(getActivity());
 				popup.getBackground().setAlpha(50);
 				TextView textV = new TextView(getActivity());
-                LayoutParams linearparams1 = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-                textV.setLayoutParams(linearparams1);
-                textV.setText("To solve the board, tap the following tiles: " + g.getCheat(mFlipData.getCurrentState()));
-                popup.setContentView(textV);
-                popup.setWidth(600);
-                popup.setHeight(337);
-                popup.showAtLocation(mCheatButton, Gravity.CENTER_HORIZONTAL, 25, 25);
-                //To close, tap outside the box
-                popup.setFocusable(true);
-                popup.update();			
+				LayoutParams linearparams1 = new LayoutParams(
+						LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+				textV.setLayoutParams(linearparams1);
+				ArrayList<Integer> answer = g.getCheat(mFlipData.getCurrentState());
+				textV.setText("To solve the board, tap the following tiles: "
+						+ answer);
+				popup.setContentView(textV);
+				popup.setWidth(600);
+				popup.setHeight(337);
+				popup.showAtLocation(mCheatButton, Gravity.CENTER_HORIZONTAL,
+						25, 25);
+				// To close, tap outside the box
+				popup.setFocusable(true);
+				popup.update();
+
+				for(int num: answer){
+					mTileButtons[num-1].setText("*");
+				}
+					
 			}
 		});
 
