@@ -112,8 +112,7 @@ public class FlipNineFragment extends Fragment {
 				LayoutParams linearparams1 = new LayoutParams(
 						LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 				textV.setLayoutParams(linearparams1);
-				ArrayList<Integer> answer = g.getCheat(mFlipData
-						.getCurrentState());
+				ArrayList<Integer> answer = Cheat.getCheat(mFlipData.getCurrentState());
 				textV.setText("To solve the board, tap the following tiles: "
 						+ answer);
 				popup.setContentView(textV);
@@ -126,7 +125,7 @@ public class FlipNineFragment extends Fragment {
 				popup.update();
 
 				for (int num : answer) {
-					mTileButtons[num - 1].setText("*");
+					mTileButtons[num].setText("*");
 				}
 
 			}
