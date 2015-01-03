@@ -27,10 +27,13 @@ public class FlipNineFragment extends Fragment {
 	public static final String EXTRA_GAME_ID = "game id";
 
 	private FlipData mFlipData;
-	private Button[] mTileButtons = new Button[9]; // the references of the 9 //											// buttons
+	private Button[] mTileButtons = new Button[9]; // the references of the 9 //
+													// // buttons
 	private String mMoveString; // "Move:" String
 	private int mCounter = 0; // the number of time the user press a tile
 	private TextView mMoveTextView;
+	private TextView mBestTextView;
+	private TextView mTitleTextView;
 	private Button mUndoButton;
 	private Button mCheatButton;
 	private Button mRestartButton;
@@ -53,7 +56,7 @@ public class FlipNineFragment extends Fragment {
 				.inflate(R.layout.fragment_flip_nine, container, false);
 
 		mMoveTextView = (TextView) v.findViewById(R.id.moveTextView);
-		mMoveString = mMoveTextView.getText().toString();
+		mMoveString = mMoveTextView.getText().toString(); // kind of bad??
 
 		TableLayout tableLayout = (TableLayout) v
 				.findViewById(R.id.fragment_flip_nine_tableLayout);
@@ -70,7 +73,17 @@ public class FlipNineFragment extends Fragment {
 		}
 
 		initialize();
-
+		
+		mTitleTextView = (TextView) v.findViewById(R.id.titleTextView);
+		mTitleTextView.setText(mFlipData.getTitle());
+				
+		
+		mBestTextView = (TextView) v.findViewById(R.id.bestTextView);
+		if(mFlipData.getBestScore() != 0){
+			mBestTextView.setText(mBestTextView.getText()+ " " + mFlipData.getBestScore());
+		}
+			
+			
 		mUndoButton = (Button) v.findViewById(R.id.undoButton);
 		mUndoButton.setOnClickListener(new OnClickListener() {
 
@@ -142,6 +155,10 @@ public class FlipNineFragment extends Fragment {
 				mFlipData = someLevel;
 			}
 		}
+		// in case the user goes back to the same level
+		// and currentState was saved, restart() prevents cheating
+		mFlipData.restart();
+		
 		mStackHistory = new Stack<Integer>();
 		updateChange();
 	}

@@ -2,9 +2,9 @@
 <resources>
 
     <string name="app_name">Flip 9</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="moves">Moves: </string>
+    <string name="best">Best: </string>
     <string name="restart">Restart</string>
     <string name="undo">Undo</string>
     <string name="cheat">Cheat</string>
