@@ -1,20 +1,11 @@
+package com.labrats.android.flip9;
+
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.ArrayDeque;
 
 public class Cheat {
 	
-	public static void main(String[] args){
-		init();
-		for(int i:getCheat(71)){
-			System.out.print(i);
-			System.out.print(" ");
-		}
-		System.out.println();
-	}
-
 	private static final int[] masks = { 11, 23, 38, 89, 186, 308, 200, 464,
 			416 };
 
@@ -37,6 +28,7 @@ public class Cheat {
 	 * returns the button presses
 	 */
 	public static ArrayList<Integer> getCheat(int c) {
+		init();
 		Arrays.fill(visited, false);
 		Arrays.fill(parent, -1);
 		Arrays.fill(button, -1);
@@ -47,6 +39,9 @@ public class Cheat {
 			ans.add(button[t]);
 			t=parent[t];
 		}
+		
+		ans.remove(ans.size()-1);
+		
 		return ans;
 	}
 
