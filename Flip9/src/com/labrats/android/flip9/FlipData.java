@@ -12,12 +12,13 @@ public class FlipData {
 	public static final String JSON_START = "start";
 	public static final String JSON_TITLE = "title";
 	public static final String JSON_ID = "id";
-
+	private static final int[] masks = { 11, 23, 38, 89, 186, 308, 200, 464,
+			416 };
 	private UUID mId;
 	private int mBestScore = 0;
 	private int mStars = 0;
 	private int mCurrentState;
-	
+
 	// mStart needs to final somehow... no setter method?
 	private int mStart;
 	private String mTitle;
@@ -103,34 +104,15 @@ public class FlipData {
 	public void flipTile(int index) {
 		mCurrentState = getBitmask(index) ^ mCurrentState;
 	}
-	
-	public void restart(){
+
+	public void restart() {
 		mCurrentState = mStart;
 	}
 
-	public static int getBitmask(int num) {
-		switch (num) {
-		case 0:
-			return 11;
-		case 1:
-			return 23;
-		case 2:
-			return 38;
-		case 3:
-			return 89;
-		case 4:
-			return 186;
-		case 5:
-			return 308;
-		case 6:
-			return 200;
-		case 7:
-			return 464;
-		case 8:
-			return 416;
-		default:
-			return 0; // do nothing
-		}
+	private static int getBitmask(int num) {
+		if (num >= 0 && num < masks.length)
+			return masks[num];
+		return 0;
 	}
 
 }
