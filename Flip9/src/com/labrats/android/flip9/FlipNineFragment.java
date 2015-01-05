@@ -5,10 +5,13 @@ import java.util.Stack;
 import java.util.UUID;
 
 import android.app.ActionBar.LayoutParams;
+import android.app.Activity;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -25,6 +28,7 @@ import android.widget.Toast;
 public class FlipNineFragment extends Fragment {
 
 	public static final String EXTRA_GAME_ID = "game id";
+	private static final int REQUEST_COMPLETION = 0;
 
 	private FlipData mFlipData;
 	private Button[] mTileButtons = new Button[9]; // the references of the 9 //
@@ -32,6 +36,7 @@ public class FlipNineFragment extends Fragment {
 	private String mMoveString; // "Move:" String
 	private String mBestString; // don't change these strings
 	private int mCounter = 0; // the number of time the user press a tile
+	private int mArrayListIndex;
 	private TextView mMoveTextView;
 	private TextView mBestTextView;
 	private TextView mTitleTextView;
@@ -40,6 +45,7 @@ public class FlipNineFragment extends Fragment {
 	private Button mRestartButton;
 	private Stack<Integer> mStackHistory;
 	private MediaPlayer mSoundEffect;
+	private ArrayList<FlipData> list;
 
 	public static FlipNineFragment newInstance(UUID gameId) {
 		Bundle info = new Bundle();
@@ -138,25 +144,40 @@ public class FlipNineFragment extends Fragment {
 
 			@Override
 			public void onClick(View v) {
-				mCounter = 0;
-				mMoveTextView.setText(mMoveString+ "0");
-				mFlipData.restart();
-				updateChange();
-				mStackHistory.clear();
+				restart();
 			}
 		});
 
 		return v;
 	}
 
+	private void restart() {
+		mCounter = 0;
+		mMoveTextView.setText(mMoveString + "0");
+		mFlipData.restart();
+		updateChange();
+		mStackHistory.clear();
+		if (mFlipData.getBestScore() != 0) {
+			mBestTextView.setText(mBestString + " " + mFlipData.getBestScore());
+		}else{
+			mBestTextView.setText(mBestString);
+		}
+		mTitleTextView.setText(mFlipData.getTitle());
+	}
+
 	private void initialize() {
 		// find FlipData that corresponds to the puzzle
 		UUID gameId = (UUID) getArguments().getSerializable(EXTRA_GAME_ID);
-		for (FlipData someLevel : UserData.get(getActivity()).getLevelList()) {
-			if (someLevel.getId().equals(gameId)) {
-				mFlipData = someLevel;
+
+		list = UserData.get(getActivity()).getLevelList();
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).getId().equals(gameId)) {
+				mFlipData = list.get(i);
+				mArrayListIndex = i;
+				break;
 			}
 		}
+
 		// in case the user goes back to the same level
 		// and currentState was saved, restart() prevents cheating
 		mFlipData.restart();
@@ -198,7 +219,26 @@ public class FlipNineFragment extends Fragment {
 				Log.d("FlipNineFragment", "Erro in saving: " + e);
 			}
 			mBestTextView.setText(mBestString + " " + mFlipData.getBestScore());
-			Toast.makeText(getActivity(), "Saving", Toast.LENGTH_SHORT).show();
+
+			FragmentManager fm = getActivity().getSupportFragmentManager();
+			CompleteDialog dialog = new CompleteDialog();
+			dialog.setTargetFragment(this, REQUEST_COMPLETION);
+			dialog.show(fm, "Complete Game");
+
+		}
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == Activity.RESULT_OK) {
+			boolean next = data.getBooleanExtra(CompleteDialog.EXTRA_NEXT,
+					false);
+			if (next) {
+				mArrayListIndex = ++mArrayListIndex % list.size();
+			}
+			
+			mFlipData = list.get(mArrayListIndex);
+			restart();
 
 		}
 	}
