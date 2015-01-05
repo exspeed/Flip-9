@@ -1,6 +1,7 @@
 package com.labrats.android.flip9;
 
 import java.util.ArrayList;
+
 import java.util.Stack;
 import java.util.UUID;
 
@@ -23,7 +24,6 @@ import android.widget.PopupWindow;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class FlipNineFragment extends Fragment {
 
@@ -163,6 +163,12 @@ public class FlipNineFragment extends Fragment {
 			mBestTextView.setText(mBestString);
 		}
 		mTitleTextView.setText(mFlipData.getTitle());
+		
+		if(mTileButtons[0].isClickable() == false){
+			for(Button tile: mTileButtons){
+				tile.setClickable(true);
+			}
+		}
 	}
 
 	private void initialize() {
@@ -216,12 +222,16 @@ public class FlipNineFragment extends Fragment {
 			try {
 				UserData.get(getActivity()).saveData();
 			} catch (Exception e) {
-				Log.d("FlipNineFragment", "Erro in saving: " + e);
+				Log.d("FlipNineFragment", "Error in saving: " + e);
 			}
 			mBestTextView.setText(mBestString + " " + mFlipData.getBestScore());
-
+			
+			for(Button tile: mTileButtons){
+				tile.setClickable(false);
+			}
+			
 			FragmentManager fm = getActivity().getSupportFragmentManager();
-			CompleteDialog dialog = new CompleteDialog();
+			CompleteDialog dialog = CompleteDialog.newInstance(mFlipData.getStars());
 			dialog.setTargetFragment(this, REQUEST_COMPLETION);
 			dialog.show(fm, "Complete Game");
 
