@@ -71,7 +71,8 @@ public class FlipNineFragment extends Fragment {
 			TableRow tableRow = (TableRow) tableLayout.getChildAt(i);
 			for (int j = 0; j < tableRow.getChildCount(); j++) {
 				mTileButtons[index] = (Button) tableRow.getChildAt(j);
-				mTileButtons[index].setOnTouchListener(new TileListener2(index));
+				mTileButtons[index]
+						.setOnTouchListener(new TileListener2(index));
 
 				index++;
 			}
@@ -147,8 +148,8 @@ public class FlipNineFragment extends Fragment {
 		mTitleTextView.setText(mFlipData.getTitle());
 
 		for (Button tile : mTileButtons) {
-			if (mTileButtons[0].isClickable() == false)
-				tile.setClickable(true);
+			if (tile.isEnabled() == false)
+				tile.setEnabled(true);
 			tile.setText("");
 		}
 
@@ -209,7 +210,7 @@ public class FlipNineFragment extends Fragment {
 			mBestTextView.setText(mBestString + " " + mFlipData.getBestScore());
 
 			for (Button tile : mTileButtons) {
-				tile.setClickable(false);
+				tile.setEnabled(false);
 			}
 
 			FragmentManager fm = getActivity().getSupportFragmentManager();
@@ -226,12 +227,11 @@ public class FlipNineFragment extends Fragment {
 			boolean next = data.getBooleanExtra(CompleteDialog.EXTRA_NEXT,
 					false);
 			if (next) {
-				mArrayListIndex = ++mArrayListIndex % list.size();
+				mArrayListIndex = ++mArrayListIndex % list.size();	
 			}
-
-			mFlipData = list.get(mArrayListIndex);
-			restart();
-
+		
+				mFlipData = list.get(mArrayListIndex);
+				restart();
 		}
 	}
 
@@ -242,7 +242,7 @@ public class FlipNineFragment extends Fragment {
 		public TileListener2(int index) {
 			this.position = index;
 		}
-		
+
 		@Override
 		public boolean onTouch(View v, MotionEvent event) {
 			switch (event.getAction() & MotionEvent.ACTION_MASK) {
@@ -268,7 +268,7 @@ public class FlipNineFragment extends Fragment {
 			return true;
 		}
 
-		private void highlightTile(){
+		private void highlightTile() {
 			int mask = FlipData.getBitmask(position);
 			for (int i = 0; i < 9; i++) {
 				if ((mask & 1) == 1)
@@ -276,7 +276,7 @@ public class FlipNineFragment extends Fragment {
 				mask >>= 1;
 			}
 		}
-		
+
 		private void playSound() {
 			if (mSoundEffect == null) {
 				mSoundEffect = MediaPlayer.create(getActivity(), R.raw.mouse1);
