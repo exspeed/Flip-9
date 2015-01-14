@@ -109,7 +109,7 @@ public class FlipData {
 		mCurrentState = mStart;
 	}
 
-	private static int getBitmask(int num) {
+	public static int getBitmask(int num) {
 		if (num >= 0 && num < masks.length)
 			return masks[num];
 		return 0;

@@ -18,7 +18,7 @@
         <item name="android:layout_margin">3dp</item>
         <item name="android:textColor">#B40431</item>
         <item name ="android:textSize">40sp</item>
-        <item name="android:background">@drawable/button_shape_flip</item>
+        <item name="android:background">@drawable/button_state2_normal</item>
     </style>
 
 

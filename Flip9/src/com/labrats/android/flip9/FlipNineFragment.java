@@ -1,11 +1,8 @@
 package com.labrats.android.flip9;
 
 import java.util.ArrayList;
-
 import java.util.Stack;
 import java.util.UUID;
-
-import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -14,13 +11,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.PopupWindow;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -74,7 +71,8 @@ public class FlipNineFragment extends Fragment {
 			TableRow tableRow = (TableRow) tableLayout.getChildAt(i);
 			for (int j = 0; j < tableRow.getChildCount(); j++) {
 				mTileButtons[index] = (Button) tableRow.getChildAt(j);
-				mTileButtons[index].setOnClickListener(new TileListener(index));
+				mTileButtons[index].setOnTouchListener(new TileListener2(index));
+
 				index++;
 			}
 
@@ -112,26 +110,9 @@ public class FlipNineFragment extends Fragment {
 
 			@Override
 			public void onClick(View v) {
-				Cheat g = new Cheat();
-				PopupWindow popup = new PopupWindow(getActivity());
-				popup.getBackground().setAlpha(50);
-				TextView textV = new TextView(getActivity());
-				LayoutParams linearparams1 = new LayoutParams(
-						LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-				textV.setLayoutParams(linearparams1);
+
 				ArrayList<Integer> answer = Cheat.getCheat(mFlipData
 						.getCurrentState());
-				textV.setText("To solve the board, tap the following tiles: "
-						+ answer);
-				popup.setContentView(textV);
-				popup.setWidth(600);
-				popup.setHeight(337);
-				popup.showAtLocation(mCheatButton, Gravity.CENTER_HORIZONTAL,
-						25, 25);
-				// To close, tap outside the box
-				popup.setFocusable(true);
-				popup.update();
-
 				for (int num : answer) {
 					mTileButtons[num].setText("*");
 				}
@@ -145,6 +126,7 @@ public class FlipNineFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				restart();
+
 			}
 		});
 
@@ -159,16 +141,17 @@ public class FlipNineFragment extends Fragment {
 		mStackHistory.clear();
 		if (mFlipData.getBestScore() != 0) {
 			mBestTextView.setText(mBestString + " " + mFlipData.getBestScore());
-		}else{
+		} else {
 			mBestTextView.setText(mBestString);
 		}
 		mTitleTextView.setText(mFlipData.getTitle());
-		
-		if(mTileButtons[0].isClickable() == false){
-			for(Button tile: mTileButtons){
+
+		for (Button tile : mTileButtons) {
+			if (mTileButtons[0].isClickable() == false)
 				tile.setClickable(true);
-			}
+			tile.setText("");
 		}
+
 	}
 
 	private void initialize() {
@@ -204,12 +187,11 @@ public class FlipNineFragment extends Fragment {
 	private void updateChange() {
 		int temp = mFlipData.getCurrentState();
 		for (int i = 0; i < 9; i++) {
+			mTileButtons[i].setPressed(false);
 			if ((temp & 1) == 1)
-				mTileButtons[i]
-						.setBackgroundResource(R.drawable.button_shape_flip);
+				mTileButtons[i].setBackgroundResource(R.drawable.button_state2);
 			else {
-				mTileButtons[i]
-						.setBackgroundResource(R.drawable.button_shape_normal);
+				mTileButtons[i].setBackgroundResource(R.drawable.button_state1);
 			}
 			temp >>= 1;
 		}
@@ -225,13 +207,14 @@ public class FlipNineFragment extends Fragment {
 				Log.d("FlipNineFragment", "Error in saving: " + e);
 			}
 			mBestTextView.setText(mBestString + " " + mFlipData.getBestScore());
-			
-			for(Button tile: mTileButtons){
+
+			for (Button tile : mTileButtons) {
 				tile.setClickable(false);
 			}
-			
+
 			FragmentManager fm = getActivity().getSupportFragmentManager();
-			CompleteDialog dialog = CompleteDialog.newInstance(mFlipData.getStars());
+			CompleteDialog dialog = CompleteDialog.newInstance(mFlipData
+					.getStars());
 			dialog.setTargetFragment(this, REQUEST_COMPLETION);
 			dialog.show(fm, "Complete Game");
 
@@ -246,37 +229,55 @@ public class FlipNineFragment extends Fragment {
 			if (next) {
 				mArrayListIndex = ++mArrayListIndex % list.size();
 			}
-			
+
 			mFlipData = list.get(mArrayListIndex);
 			restart();
 
 		}
 	}
 
-	private class TileListener implements OnClickListener {
+	private class TileListener2 implements OnTouchListener {
 
 		private int position;
 
-		public TileListener(int index) {
+		public TileListener2(int index) {
 			this.position = index;
 		}
-
+		
 		@Override
-		public void onClick(View v) {
-			mCounter++;
-			mMoveTextView.setText(mMoveString + mCounter);
-			mStackHistory.push(position);
-			playSound();
-			mFlipData.flipTile(position);
-			updateChange();
-			checkCompleted();
+		public boolean onTouch(View v, MotionEvent event) {
+			switch (event.getAction() & MotionEvent.ACTION_MASK) {
+			case MotionEvent.ACTION_DOWN:
+				highlightTile();
+				break;
+			case MotionEvent.ACTION_UP:
+				mCounter++;
+				mMoveTextView.setText(mMoveString + mCounter);
+				mStackHistory.push(position);
+				playSound();
+				mFlipData.flipTile(position);
+				updateChange();
+				checkCompleted();
 
-			// remove " * "
-			if (mTileButtons[position].getText().equals("*"))
-				mTileButtons[position].setText("");
-
+				// remove " * "
+				if (mTileButtons[position].getText().equals("*"))
+					mTileButtons[position].setText("");
+				break;
+			default:
+				// do nothing?
+			}
+			return true;
 		}
 
+		private void highlightTile(){
+			int mask = FlipData.getBitmask(position);
+			for (int i = 0; i < 9; i++) {
+				if ((mask & 1) == 1)
+					mTileButtons[i].setPressed(true);
+				mask >>= 1;
+			}
+		}
+		
 		private void playSound() {
 			if (mSoundEffect == null) {
 				mSoundEffect = MediaPlayer.create(getActivity(), R.raw.mouse1);
