@@ -22,7 +22,7 @@ public class CompleteDialog extends DialogFragment {
 	public static final String EXTRA_SCORE ="stars";
 
 	private static final String[] MOTIVATION = { "Keep it up!", "Outstanding",
-			"Good job", "Way to go", "Right on", "Nice work" };
+			"Good job", "Way to go", "Right on", "Nice work", "Superb" };
 	private TextView mMotivationTextView;
 	private RatingBar mRatingBar;
 
