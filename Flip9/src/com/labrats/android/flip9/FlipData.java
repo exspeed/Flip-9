@@ -72,14 +72,14 @@ public class FlipData {
 		return mBestScore;
 	}
 
-	public void setBestScore(int bestScore) {
+	public void setBestScore(int newScore) {
 		if (mBestScore == 0)
-			mBestScore = bestScore;
+			mBestScore = newScore;
 
-		if (mBestScore < bestScore)
+		if (mBestScore < newScore)
 			return;
 
-		mBestScore = bestScore;
+		mBestScore = newScore;
 		setStars();
 
 	}

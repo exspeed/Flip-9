@@ -19,7 +19,7 @@ import android.widget.AbsListView.SelectionBoundsAdjuster;
 public class CompleteDialog extends DialogFragment {
 
 	public static final String EXTRA_NEXT = "next";
-	public static final String EXTRA_STARS ="stars";
+	public static final String EXTRA_SCORE ="stars";
 
 	private static final String[] MOTIVATION = { "Keep it up!", "Outstanding",
 			"Good job", "Way to go", "Right on", "Nice work" };
@@ -28,7 +28,7 @@ public class CompleteDialog extends DialogFragment {
 
 	public static CompleteDialog newInstance(int numOfStars) {
 		Bundle args = new Bundle();
-		args.putInt(EXTRA_STARS, numOfStars);
+		args.putInt(EXTRA_SCORE, numOfStars);
 		
 		CompleteDialog fragment = new CompleteDialog();
 		fragment.setArguments(args);
@@ -46,7 +46,8 @@ public class CompleteDialog extends DialogFragment {
 		mMotivationTextView.setText(MOTIVATION[index]);
 
 		mRatingBar = (RatingBar) v.findViewById(R.id.congratsRatingBar);
-		mRatingBar.setRating(getArguments().getInt(EXTRA_STARS));
+		int score = getArguments().getInt(EXTRA_SCORE);
+		mRatingBar.setRating(getStars(score));
 
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -77,5 +78,14 @@ public class CompleteDialog extends DialogFragment {
 		});
 
 		return builder.create();
+	}
+	
+	public int getStars(int score){
+		if(score <= 10)
+			return 3;
+		else if (score <= 20)
+			return 2;
+		else
+			return 1;
 	}
 }

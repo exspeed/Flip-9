@@ -213,8 +213,7 @@ public class FlipNineFragment extends Fragment {
 			}
 
 			FragmentManager fm = getActivity().getSupportFragmentManager();
-			CompleteDialog dialog = CompleteDialog.newInstance(mFlipData
-					.getStars());
+			CompleteDialog dialog = CompleteDialog.newInstance(mCounter);
 			dialog.setTargetFragment(this, REQUEST_COMPLETION);
 			dialog.show(fm, "Complete Game");
 
