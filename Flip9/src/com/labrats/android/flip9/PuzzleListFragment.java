@@ -8,7 +8,9 @@ import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -44,9 +46,9 @@ public class PuzzleListFragment extends ListFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		((LevelAdapter)getListAdapter()).notifyDataSetChanged();
+		((LevelAdapter) getListAdapter()).notifyDataSetChanged();
 	}
-	
+
 	private class LevelAdapter extends ArrayAdapter<FlipData> {
 
 		public LevelAdapter(ArrayList<FlipData> data) {
@@ -60,17 +62,29 @@ public class PuzzleListFragment extends ListFragment {
 						R.layout.puzzle_list_item, null);
 			}
 
+			FlipData data = getItem(position);
 			TextView puzzleTextView = (TextView) convertView
 					.findViewById(R.id.level_list_textView);
-			String title = getItem(position).getTitle();
+			String title = data.getTitle();
 			puzzleTextView.setText(title);
 
-			RatingBar puzzleRatingBar = (RatingBar) convertView
-					.findViewById(R.id.level_list_ratingBar);
-			puzzleRatingBar.setRating(getItem(position).getStars());
-
+			LinearLayout verticalLayout = (LinearLayout) convertView
+					.findViewById(R.id.puzzle_list_vertial_layout);
+			TextView bestScoreTextView = (TextView) verticalLayout
+					.getChildAt(1);
+			if (data.getStars() > 0) {
+				String best = getResources().getString(R.string.best);
+				bestScoreTextView.setText(best + " "
+						+ getItem(position).getBestScore());
+				
+			} else {
+				bestScoreTextView.setText("");
+		
+			}
+			RatingBar puzzleRatingBar = (RatingBar) verticalLayout
+					.getChildAt(0);
+			puzzleRatingBar.setRating(data.getStars());
 			return convertView;
 		}
-
 	}
 }

@@ -3,8 +3,11 @@ package com.labrats.android.flip9;
 import java.util.ArrayList;
 import java.util.Stack;
 import java.util.UUID;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
