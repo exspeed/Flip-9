@@ -89,7 +89,7 @@ public class FlipNineFragment extends Fragment {
 		mBestButton = (Button) v.findViewById(R.id.bestButton);
 		mBestString = mBestButton.getText().toString();
 		if (mFlipData.getBestScore() != 0) {
-			mBestButton.setText(mBestString + " " + mFlipData.getBestScore());
+			mBestButton.setText(mBestString + "\n" + mFlipData.getBestScore());
 		}
 
 		mUndoButton = (Button) v.findViewById(R.id.undoButton);
@@ -143,7 +143,7 @@ public class FlipNineFragment extends Fragment {
 		updateChange();
 		mStackHistory.clear();
 		if (mFlipData.getBestScore() != 0) {
-			mBestButton.setText(mBestString + " " + mFlipData.getBestScore());
+			mBestButton.setText(mBestString + "\n" + mFlipData.getBestScore());
 		} else {
 			mBestButton.setText(mBestString);
 		}
@@ -211,7 +211,7 @@ public class FlipNineFragment extends Fragment {
 			} catch (Exception e) {
 				Log.d("FlipNineFragment", "Error in saving: " + e);
 			}
-			mBestButton.setText(mBestString + " " + mFlipData.getBestScore());
+			mBestButton.setText(mBestString + "\n" + mFlipData.getBestScore());
 
 			for (Button tile : mTileButtons) {
 				tile.setEnabled(false);
