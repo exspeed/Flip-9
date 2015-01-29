@@ -194,9 +194,9 @@ public class FlipNineFragment extends Fragment {
 		for (int i = 0; i < 9; i++) {
 			mTileButtons[i].setPressed(false);
 			if ((temp & 1) == 1)
-				mTileButtons[i].setBackgroundResource(R.drawable.button_state2);
+				mTileButtons[i].setBackgroundResource(R.drawable.tile_start_state);
 			else {
-				mTileButtons[i].setBackgroundResource(R.drawable.button_state1);
+				mTileButtons[i].setBackgroundResource(R.drawable.tile_end_state);
 			}
 			temp >>= 1;
 		}

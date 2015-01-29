@@ -28,16 +28,15 @@
             android:layout_weight="2"
             android:gravity="center"
             android:padding="8dp"
-            android:textSize="20sp"
-            android:typeface="sans"
             android:textAppearance="?android:attr/textAppearanceLarge"
-             />
+            android:textSize="25sp"
+            android:typeface="sans" />
 
         <TextView
             android:id="@+id/moveTextView"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginRight="4dp"
+            android:layout_marginRight="3dp"
             android:layout_weight="1"
             android:background="@drawable/gray_rectangle"
             android:gravity="center"
@@ -51,6 +50,7 @@
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginRight="3dp"
             android:layout_weight="1"
             android:background="@drawable/gray_rectangle"
             android:text="@string/best"
@@ -59,46 +59,43 @@
             android:typeface="sans" />
     </LinearLayout>
 
-        <include
-            android:layout_weight="1"
-            layout="@layout/button_row" />
+    <include
+        android:layout_weight="1"
+        layout="@layout/button_row" />
 
-        <include
-            android:layout_weight="1"
-            layout="@layout/button_row" />
+    <include
+        android:layout_weight="1"
+        layout="@layout/button_row" />
 
-        <include
-            android:layout_weight="1"
-            layout="@layout/button_row" />
+    <include
+        android:layout_weight="1"
+        layout="@layout/button_row" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingBottom="8dp"
+        android:paddingTop="16dp" >
+
+        <Button
+            android:id="@+id/restartButton"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingTop="16dp"
-            android:paddingBottom="8dp"
-            >
+            android:layout_weight="1"
+            android:drawablePadding="3sp"
+            android:drawableTop="@drawable/restart"
+            android:text="@string/restart" />
 
-            <Button
-                android:id="@+id/restartButton"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawablePadding="3sp"
-                android:drawableTop="@drawable/restart"
-                android:text="@string/restart"
-                  />
-
-            <Button
-                android:id="@+id/undoButton"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableTop="@drawable/undo"
-                android:text="@string/undo"
-                  />
-        </LinearLayout>
+        <Button
+            android:id="@+id/undoButton"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/undo"
+            android:text="@string/undo" />
+    </LinearLayout>
 
 </TableLayout>
