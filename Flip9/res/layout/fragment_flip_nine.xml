@@ -28,7 +28,10 @@
             android:layout_weight="2"
             android:gravity="center"
             android:padding="8dp"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textSize="20sp"
+            android:typeface="sans"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+             />
 
         <TextView
             android:id="@+id/moveTextView"
@@ -36,7 +39,7 @@
             android:layout_height="match_parent"
             android:layout_marginRight="4dp"
             android:layout_weight="1"
-            android:background="@drawable/brown_rectangle"
+            android:background="@drawable/gray_rectangle"
             android:gravity="center"
             android:text="@string/moves"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -49,7 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/brown_rectangle"
+            android:background="@drawable/gray_rectangle"
             android:text="@string/best"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#E6E6E6"
@@ -72,7 +75,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:paddingTop="16dp" >
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp"
+            >
 
             <Button
                 android:id="@+id/restartButton"
@@ -82,7 +87,8 @@
                 android:layout_weight="1"
                 android:drawablePadding="3sp"
                 android:drawableTop="@drawable/restart"
-                android:text="@string/restart" />
+                android:text="@string/restart"
+                  />
 
             <Button
                 android:id="@+id/undoButton"
@@ -91,7 +97,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:drawableTop="@drawable/undo"
-                android:text="@string/undo" />
+                android:text="@string/undo"
+                  />
         </LinearLayout>
 
 </TableLayout>
