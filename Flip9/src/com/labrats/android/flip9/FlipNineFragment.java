@@ -26,6 +26,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 public class FlipNineFragment extends Fragment {
+	
 
 	public static final String EXTRA_GAME_ID = "game id";
 	private static final int REQUEST_COMPLETION = 0;
@@ -37,6 +38,7 @@ public class FlipNineFragment extends Fragment {
 	private String mBestString; // don't change these strings
 	private int mCounter = 0; // the number of time the user press a tile
 	private int mArrayListIndex;
+	private int mCheatCount = 0;
 	private TextView mMoveTextView;
 	private Button mBestButton;
 	private TextView mTitleTextView;
@@ -45,7 +47,7 @@ public class FlipNineFragment extends Fragment {
 	private Stack<Integer> mStackHistory;
 	private MediaPlayer mSoundEffect;
 	private ArrayList<FlipData> list;
-
+	
 	public static FlipNineFragment newInstance(UUID gameId) {
 		Bundle info = new Bundle();
 		info.putSerializable(EXTRA_GAME_ID, gameId);
@@ -113,13 +115,16 @@ public class FlipNineFragment extends Fragment {
 
 			@Override
 			public void onClick(View v) {
-
-				ArrayList<Integer> answer = Cheat.getCheat(mFlipData
-						.getCurrentState());
-				for (int num : answer) {
-					mTileButtons[num].setText("*");
+				if(mCheatCount== 2){
+					ArrayList<Integer> answer = Cheat.getCheat(mFlipData
+							.getCurrentState());
+					for (int num : answer) {
+						mTileButtons[num].setText("*");
+					}
+					mCheatCount = 0;
+				} else{
+					mCheatCount++;
 				}
-
 			}
 		});
 
