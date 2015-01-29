@@ -11,7 +11,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.AbsListView.SelectionBoundsAdjuster;
@@ -41,6 +43,7 @@ public class CompleteDialog extends DialogFragment {
 		View v = getActivity().getLayoutInflater().inflate(
 				R.layout.complete_fragment, null);
 		mMotivationTextView = (TextView) v.findViewById(R.id.congratsTextView);
+		
 		Random rand = new Random();
 		int index = rand.nextInt(MOTIVATION.length);
 		mMotivationTextView.setText(MOTIVATION[index]);

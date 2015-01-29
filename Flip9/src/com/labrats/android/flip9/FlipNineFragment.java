@@ -151,7 +151,7 @@ public class FlipNineFragment extends Fragment {
 			if (tile.isEnabled() == false)
 				tile.setEnabled(true);
 			tile.setText("");
-		}
+		} 	
 
 	}
 
