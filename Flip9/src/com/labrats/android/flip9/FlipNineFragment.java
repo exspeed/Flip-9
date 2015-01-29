@@ -67,7 +67,7 @@ public class FlipNineFragment extends Fragment {
 				.findViewById(R.id.fragment_flip_nine_tableLayout);
 		// if the layout were to change, this will crash
 		int index = 0;
-		for (int i = 1; i <= 3; i++) {
+		for (int i = 2; i <= 4; i++) {
 			TableRow tableRow = (TableRow) tableLayout.getChildAt(i);
 			for (int j = 0; j < tableRow.getChildCount(); j++) {
 				mTileButtons[index] = (Button) tableRow.getChildAt(j);
