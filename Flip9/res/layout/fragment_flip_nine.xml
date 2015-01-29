@@ -19,12 +19,7 @@
             android:padding="8dp"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <Button
-            android:id="@+id/cheatButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-			android:text="@string/cheat"
-			style="?android:attr/borderlessButtonStyle" />
+        
     </LinearLayout>
 
     <LinearLayout
@@ -37,19 +32,25 @@
             android:id="@+id/moveTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:paddingBottom="10dp"
             android:text="@string/moves"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textColor="#848484"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:typeface="sans"
+             />
 
-        <TextView
-            android:id="@+id/bestTextView"
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/bestButton"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight=".25"
-            android:paddingBottom="10dp"
-            android:text="@string/best"
+            android:layout_weight="1"
+			style="?android:attr/borderlessButtonStyle"
+			android:text="@string/best"
+	        android:textColor="#848484"
+            android:typeface="sans"
             android:textAppearance="?android:attr/textAppearanceMedium" />
+            
     </LinearLayout>
 
     <include

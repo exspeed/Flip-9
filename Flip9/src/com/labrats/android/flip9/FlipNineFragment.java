@@ -35,10 +35,9 @@ public class FlipNineFragment extends Fragment {
 	private int mCounter = 0; // the number of time the user press a tile
 	private int mArrayListIndex;
 	private TextView mMoveTextView;
-	private TextView mBestTextView;
+	private Button mBestButton;
 	private TextView mTitleTextView;
 	private Button mUndoButton;
-	private Button mCheatButton;
 	private Button mRestartButton;
 	private Stack<Integer> mStackHistory;
 	private MediaPlayer mSoundEffect;
@@ -84,10 +83,10 @@ public class FlipNineFragment extends Fragment {
 		mTitleTextView = (TextView) v.findViewById(R.id.titleTextView);
 		mTitleTextView.setText(mFlipData.getTitle());
 
-		mBestTextView = (TextView) v.findViewById(R.id.bestTextView);
-		mBestString = mBestTextView.getText().toString();
+		mBestButton = (Button) v.findViewById(R.id.bestButton);
+		mBestString = mBestButton.getText().toString();
 		if (mFlipData.getBestScore() != 0) {
-			mBestTextView.setText(mBestString + " " + mFlipData.getBestScore());
+			mBestButton.setText(mBestString + " " + mFlipData.getBestScore());
 		}
 
 		mUndoButton = (Button) v.findViewById(R.id.undoButton);
@@ -106,8 +105,8 @@ public class FlipNineFragment extends Fragment {
 		});
 
 		// Cheat Button
-		mCheatButton = (Button) v.findViewById(R.id.cheatButton);
-		mCheatButton.setOnClickListener(new OnClickListener() {
+		//mCheatButton = (Button) v.findViewById(R.id.cheatButton);
+		mBestButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -141,9 +140,9 @@ public class FlipNineFragment extends Fragment {
 		updateChange();
 		mStackHistory.clear();
 		if (mFlipData.getBestScore() != 0) {
-			mBestTextView.setText(mBestString + " " + mFlipData.getBestScore());
+			mBestButton.setText(mBestString + " " + mFlipData.getBestScore());
 		} else {
-			mBestTextView.setText(mBestString);
+			mBestButton.setText(mBestString);
 		}
 		mTitleTextView.setText(mFlipData.getTitle());
 
@@ -151,7 +150,9 @@ public class FlipNineFragment extends Fragment {
 			if (tile.isEnabled() == false)
 				tile.setEnabled(true);
 			tile.setText("");
-		} 	
+		}
+		mBestButton.setEnabled(true);
+		mUndoButton.setEnabled(true);
 
 	}
 
@@ -207,11 +208,14 @@ public class FlipNineFragment extends Fragment {
 			} catch (Exception e) {
 				Log.d("FlipNineFragment", "Error in saving: " + e);
 			}
-			mBestTextView.setText(mBestString + " " + mFlipData.getBestScore());
+			mBestButton.setText(mBestString + " " + mFlipData.getBestScore());
 
 			for (Button tile : mTileButtons) {
 				tile.setEnabled(false);
 			}
+			
+			mBestButton.setEnabled(false);
+			mUndoButton.setEnabled(false);
 
 			FragmentManager fm = getActivity().getSupportFragmentManager();
 			CompleteDialog dialog = CompleteDialog.newInstance(mCounter);
