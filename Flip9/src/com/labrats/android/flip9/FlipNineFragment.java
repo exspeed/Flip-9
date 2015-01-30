@@ -14,13 +14,17 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.PopupWindow;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -43,6 +47,7 @@ public class FlipNineFragment extends Fragment {
 	private Button mBestButton;
 	private TextView mTitleTextView;
 	private Button mUndoButton;
+	private ImageButton mInfoButton;
 	private Button mRestartButton;
 	private Stack<Integer> mStackHistory;
 	private MediaPlayer mSoundEffect;
@@ -126,8 +131,33 @@ public class FlipNineFragment extends Fragment {
 					mCheatCount++;
 				}
 			}
+			
+			
 		});
-
+		
+		mInfoButton = (ImageButton) v.findViewById(R.id.infoButton);
+		mInfoButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				PopupWindow infoPopUp = new PopupWindow(getActivity());
+				TextView textW = new TextView(getActivity());
+				LayoutParams layout = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+				textW.setLayoutParams(layout);
+				textW.setTextColor(-1);
+				textW.setTextSize(24);
+				textW.setText("To play this game, tap on a tile. The one you tap and the adjacent ones will change colors. "
+						+ "The goal of the game is to make it all the same color");
+				infoPopUp.setContentView(textW);
+				infoPopUp.setWidth(800);
+				infoPopUp.setHeight(300);
+				infoPopUp.showAtLocation(mInfoButton, Gravity.CENTER_HORIZONTAL, 25, 25);
+				//To close, Tap outside the box
+				infoPopUp.setFocusable(true);
+				infoPopUp.update();
+			}
+		});
+		
 		mRestartButton = (Button) v.findViewById(R.id.restartButton);
 		mRestartButton.setOnClickListener(new OnClickListener() {
 
