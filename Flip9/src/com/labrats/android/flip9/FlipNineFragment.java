@@ -145,7 +145,7 @@ public class FlipNineFragment extends Fragment {
 				LayoutParams layout = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 				textW.setLayoutParams(layout);
 				textW.setTextColor(-1);
-				textW.setTextSize(24);
+				textW.setTextSize(16);
 				textW.setText("To play this game, tap on a tile. The one you tap and the adjacent ones will change colors. "
 						+ "The goal of the game is to make it all the same color");
 				infoPopUp.setContentView(textW);
