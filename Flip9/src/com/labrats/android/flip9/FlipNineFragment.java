@@ -22,15 +22,18 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.Animation.AnimationListener;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class FlipNineFragment extends Fragment {
-	
 
 	public static final String EXTRA_GAME_ID = "game id";
 	private static final int REQUEST_COMPLETION = 0;
@@ -52,8 +55,11 @@ public class FlipNineFragment extends Fragment {
 	private Stack<Integer> mStackHistory;
 	private MediaPlayer mSoundEffect;
 	private ArrayList<FlipData> list;
-	FlipAnimation flip;
-	
+
+
+	private Animation mVerticalIn;
+	private Animation mVerticalOut;
+
 	public static FlipNineFragment newInstance(UUID gameId) {
 		Bundle info = new Bundle();
 		info.putSerializable(EXTRA_GAME_ID, gameId);
@@ -90,8 +96,8 @@ public class FlipNineFragment extends Fragment {
 		}
 
 		initialize();
-		flip = new FlipAnimation(getActivity(), mTileButtons);
-		
+		initializeAnimation();
+
 		mTitleTextView = (TextView) v.findViewById(R.id.titleTextView);
 		mTitleTextView.setText(mFlipData.getTitle());
 
@@ -106,7 +112,7 @@ public class FlipNineFragment extends Fragment {
 
 			@Override
 			public void onClick(View v) {
-				
+
 				if (mStackHistory.isEmpty())
 					return;
 				mCounter--;
@@ -118,34 +124,34 @@ public class FlipNineFragment extends Fragment {
 		});
 
 		// Cheat Button
-		//mCheatButton = (Button) v.findViewById(R.id.cheatButton);
+		// mCheatButton = (Button) v.findViewById(R.id.cheatButton);
 		mBestButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				if(mCheatCount== 2){
+				if (mCheatCount == 2) {
 					ArrayList<Integer> answer = Cheat.getCheat(mFlipData
 							.getCurrentState());
 					for (int num : answer) {
 						mTileButtons[num].setText("*");
 					}
 					mCheatCount = 0;
-				} else{
+				} else {
 					mCheatCount++;
 				}
 			}
-			
-			
+
 		});
-		
+
 		mInfoButton = (ImageButton) v.findViewById(R.id.infoButton);
 		mInfoButton.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				PopupWindow infoPopUp = new PopupWindow(getActivity());
 				TextView textW = new TextView(getActivity());
-				LayoutParams layout = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+				LayoutParams layout = new LayoutParams(
+						LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 				textW.setLayoutParams(layout);
 				textW.setTextColor(-1);
 				textW.setTextSize(24);
@@ -154,13 +160,14 @@ public class FlipNineFragment extends Fragment {
 				infoPopUp.setContentView(textW);
 				infoPopUp.setWidth(800);
 				infoPopUp.setHeight(300);
-				infoPopUp.showAtLocation(mInfoButton, Gravity.CENTER_HORIZONTAL, 25, 25);
-				//To close, Tap outside the box
+				infoPopUp.showAtLocation(mInfoButton,
+						Gravity.CENTER_HORIZONTAL, 25, 25);
+				// To close, Tap outside the box
 				infoPopUp.setFocusable(true);
 				infoPopUp.update();
 			}
 		});
-		
+
 		mRestartButton = (Button) v.findViewById(R.id.restartButton);
 		mRestartButton.setOnClickListener(new OnClickListener() {
 
@@ -172,6 +179,56 @@ public class FlipNineFragment extends Fragment {
 		});
 
 		return v;
+	}
+
+	private void initializeAnimation() {
+		mVerticalOut = AnimationUtils.loadAnimation(getActivity(),
+				R.anim.flip_vertical_out);
+		mVerticalIn = AnimationUtils.loadAnimation(getActivity(),
+				R.anim.flip_vertical_in);
+
+		mVerticalIn.setAnimationListener(new AnimationListener() {
+			
+			@Override
+			public void onAnimationStart(Animation animation) {				
+			}
+			
+			@Override
+			public void onAnimationRepeat(Animation animation) {				
+			}
+			
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				updateChange();
+				startAnimation(touchedTile, mVerticalOut);
+
+			}
+		});
+		
+
+	}
+
+	int touchedTile = 0;
+
+	private void startAnimation(int index, Animation anim) {
+		touchedTile = index;
+
+		if (index + 1 < mTileButtons.length && (index != 2 && index != 5)) {
+			mTileButtons[index + 1].startAnimation(anim);
+		}
+		if (index - 1 >= 0 && (index != 3 && index != 6)) {
+			mTileButtons[index - 1].startAnimation(anim);
+
+		}
+		if (index + 3 < mTileButtons.length) {
+			mTileButtons[index + 3].startAnimation(anim);
+
+		}
+		if (index - 3 >= 0) {
+			mTileButtons[index - 3].startAnimation(anim);
+		}
+		mTileButtons[index].startAnimation(anim);
+
 	}
 
 	private void restart() {
@@ -228,19 +285,21 @@ public class FlipNineFragment extends Fragment {
 	}
 
 	private void updateChange() {
+
 		int temp = mFlipData.getCurrentState();
 		for (int i = 0; i < 9; i++) {
-			//mTileButtons[i].setPressed(false);
+
 			if ((temp & 1) == 1)
-				mTileButtons[i].setBackgroundResource(R.drawable.tile_start_state);
+				mTileButtons[i]
+						.setBackgroundResource(R.drawable.tile_start_state);
 			else {
-				mTileButtons[i].setBackgroundResource(R.drawable.tile_end_state);
+				mTileButtons[i]
+						.setBackgroundResource(R.drawable.tile_end_state);
 			}
 			temp >>= 1;
 		}
 	}
 
-	// TODO: make a pop up window to show user's result
 	private void checkCompleted() {
 		if (mFlipData.getCurrentState() == 0) {
 			mFlipData.setBestScore(mCounter);
@@ -254,7 +313,7 @@ public class FlipNineFragment extends Fragment {
 			for (Button tile : mTileButtons) {
 				tile.setEnabled(false);
 			}
-			
+
 			mBestButton.setEnabled(false);
 			mUndoButton.setEnabled(false);
 
@@ -272,15 +331,16 @@ public class FlipNineFragment extends Fragment {
 			boolean next = data.getBooleanExtra(CompleteDialog.EXTRA_NEXT,
 					false);
 			if (next) {
-				mArrayListIndex = ++mArrayListIndex % list.size();	
+				mArrayListIndex = ++mArrayListIndex % list.size();
 			}
-		
-				mFlipData = list.get(mArrayListIndex);
-				restart();
+
+			mFlipData = list.get(mArrayListIndex);
+			restart();
 		}
 	}
 
 	private class TileListener2 implements OnTouchListener {
+
 
 		private int position;
 
@@ -290,6 +350,7 @@ public class FlipNineFragment extends Fragment {
 
 		@Override
 		public boolean onTouch(View v, MotionEvent event) {
+
 			switch (event.getAction() & MotionEvent.ACTION_MASK) {
 			case MotionEvent.ACTION_DOWN:
 				highlightTile();
@@ -300,11 +361,10 @@ public class FlipNineFragment extends Fragment {
 				mStackHistory.push(position);
 				playSound();
 				mFlipData.flipTile(position);
-				flip.start(position, mFlipData.getCurrentState());
-		
+				startAnimation(position, mVerticalIn);
 
 				checkCompleted();
-				
+
 				// remove " * "
 				if (mTileButtons[position].getText().equals("*"))
 					mTileButtons[position].setText("");
@@ -342,4 +402,5 @@ public class FlipNineFragment extends Fragment {
 		}
 
 	}
+
 }
