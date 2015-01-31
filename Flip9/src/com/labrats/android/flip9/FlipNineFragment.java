@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ import android.widget.PopupWindow;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class FlipNineFragment extends Fragment {
 
@@ -212,22 +214,11 @@ public class FlipNineFragment extends Fragment {
 
 	private void startAnimation(int index, Animation anim) {
 		touchedTile = index;
-
-		if (index + 1 < mTileButtons.length && (index != 2 && index != 5)) {
-			mTileButtons[index + 1].startAnimation(anim);
+		int mask = FlipData.getBitmask(index);
+		for (int i = 0; i < 9; i++, mask >>= 1) {
+			if ((mask & 1) == 1)
+				mTileButtons[i].startAnimation(anim);
 		}
-		if (index - 1 >= 0 && (index != 3 && index != 6)) {
-			mTileButtons[index - 1].startAnimation(anim);
-
-		}
-		if (index + 3 < mTileButtons.length) {
-			mTileButtons[index + 3].startAnimation(anim);
-
-		}
-		if (index - 3 >= 0) {
-			mTileButtons[index - 3].startAnimation(anim);
-		}
-		mTileButtons[index].startAnimation(anim);
 
 	}
 
@@ -288,7 +279,8 @@ public class FlipNineFragment extends Fragment {
 
 		int temp = mFlipData.getCurrentState();
 		for (int i = 0; i < 9; i++) {
-
+			// reset highlighted buttons
+			mTileButtons[i].setPressed(false);
 			if ((temp & 1) == 1)
 				mTileButtons[i]
 						.setBackgroundResource(R.drawable.tile_start_state);
@@ -339,43 +331,66 @@ public class FlipNineFragment extends Fragment {
 		}
 	}
 
+
 	private class TileListener2 implements OnTouchListener {
 
-		private int position;
+		private final int POSITION;
+		private Rect rect;
+		private boolean cancel = false;
 
 		public TileListener2(int index) {
-			this.position = index;
+			this.POSITION = index;
+	
 		}
-
+		/*
+		 * Learn how to detect cancel action
+		 * http://stackoverflow.com/questions/6410200/
+		 * android-how-to-detect-if-use-touches-and-drags-out-of-button-region
+		 */
 		@Override
 		public boolean onTouch(View v, MotionEvent event) {
 
 			switch (event.getAction() & MotionEvent.ACTION_MASK) {
 			case MotionEvent.ACTION_DOWN:
 				highlightTile();
+				rect = new Rect(mTileButtons[POSITION].getLeft(),
+						mTileButtons[POSITION].getTop(),
+						mTileButtons[POSITION].getRight(),
+						mTileButtons[POSITION].getBottom());
+				break;
+			case MotionEvent.ACTION_MOVE:
+				if (!rect.contains(v.getLeft() + (int) event.getX(), v.getTop()
+						+ (int) event.getY())) {
+					updateChange();
+					cancel = true;
+				}
 				break;
 			case MotionEvent.ACTION_UP:
-				mCounter++;
-				mMoveTextView.setText(mMoveString + mCounter);
-				mStackHistory.push(position);
-				playSound();
-				mFlipData.flipTile(position);
-				startAnimation(position, mVerticalIn);
+				if (!cancel) {
+					mCounter++;
+					mMoveTextView.setText(mMoveString + mCounter);
+					mStackHistory.push(POSITION);
+					playSound();
+					mFlipData.flipTile(POSITION);
+					startAnimation(POSITION, mVerticalIn);
 
-				checkCompleted();
+					checkCompleted();
 
-				// remove " * "
-				if (mTileButtons[position].getText().equals("*"))
-					mTileButtons[position].setText("");
+					// remove " * "
+					if (mTileButtons[POSITION].getText().equals("*"))
+						mTileButtons[POSITION].setText("");
+				}
+				cancel = false;
 				break;
+
 			default:
-				// do nothing?
+
 			}
 			return true;
 		}
 
 		private void highlightTile() {
-			int mask = FlipData.getBitmask(position);
+			int mask = FlipData.getBitmask(POSITION);
 			for (int i = 0; i < 9; i++) {
 				if ((mask & 1) == 1)
 					mTileButtons[i].setPressed(true);
