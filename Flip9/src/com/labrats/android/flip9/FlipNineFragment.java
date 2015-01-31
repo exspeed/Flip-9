@@ -6,8 +6,6 @@ import java.util.UUID;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
@@ -19,19 +17,19 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.animation.Animation.AnimationListener;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class FlipNineFragment extends Fragment {
 
@@ -55,7 +53,6 @@ public class FlipNineFragment extends Fragment {
 	private Stack<Integer> mStackHistory;
 	private MediaPlayer mSoundEffect;
 	private ArrayList<FlipData> list;
-
 
 	private Animation mVerticalIn;
 	private Animation mVerticalOut;
@@ -102,9 +99,12 @@ public class FlipNineFragment extends Fragment {
 		mTitleTextView.setText(mFlipData.getTitle());
 
 		mBestButton = (Button) v.findViewById(R.id.bestButton);
-		mBestString = mBestButton.getText().toString();
+		mBestString = mBestButton.getText().toString() + "\n";
 		if (mFlipData.getBestScore() != 0) {
-			mBestButton.setText(mBestString + "\n" + mFlipData.getBestScore());
+			mBestButton.setText(mBestString + mFlipData.getBestScore());
+		} else {
+			mBestButton.setText(mBestString);
+
 		}
 
 		mUndoButton = (Button) v.findViewById(R.id.undoButton);
@@ -123,12 +123,10 @@ public class FlipNineFragment extends Fragment {
 			}
 		});
 
-		// Cheat Button
-		// mCheatButton = (Button) v.findViewById(R.id.cheatButton);
-		mBestButton.setOnClickListener(new OnClickListener() {
+		mBestButton.setOnLongClickListener(new OnLongClickListener() {
 
 			@Override
-			public void onClick(View v) {
+			public boolean onLongClick(View v) {
 				if (mCheatCount == 2) {
 					ArrayList<Integer> answer = Cheat.getCheat(mFlipData
 							.getCurrentState());
@@ -139,8 +137,8 @@ public class FlipNineFragment extends Fragment {
 				} else {
 					mCheatCount++;
 				}
+				return true;
 			}
-
 		});
 
 		mInfoButton = (ImageButton) v.findViewById(R.id.infoButton);
@@ -181,6 +179,11 @@ public class FlipNineFragment extends Fragment {
 		return v;
 	}
 
+	/*
+	 * Used William J. Francis scale animation tutorial as reference for code
+	 * below http://www.techrepublic.com/blog/software-engineer/
+	 * use-androids-scale-animation-to-simulate-a-3d-flip/
+	 */
 	private void initializeAnimation() {
 		mVerticalOut = AnimationUtils.loadAnimation(getActivity(),
 				R.anim.flip_vertical_out);
@@ -188,24 +191,21 @@ public class FlipNineFragment extends Fragment {
 				R.anim.flip_vertical_in);
 
 		mVerticalIn.setAnimationListener(new AnimationListener() {
-			
+
 			@Override
-			public void onAnimationStart(Animation animation) {				
+			public void onAnimationStart(Animation animation) {
 			}
-			
+
 			@Override
-			public void onAnimationRepeat(Animation animation) {				
+			public void onAnimationRepeat(Animation animation) {
 			}
-			
+
 			@Override
 			public void onAnimationEnd(Animation animation) {
 				updateChange();
 				startAnimation(touchedTile, mVerticalOut);
-
 			}
 		});
-		
-
 	}
 
 	int touchedTile = 0;
@@ -238,7 +238,7 @@ public class FlipNineFragment extends Fragment {
 		updateChange();
 		mStackHistory.clear();
 		if (mFlipData.getBestScore() != 0) {
-			mBestButton.setText(mBestString + "\n" + mFlipData.getBestScore());
+			mBestButton.setText(mBestString + mFlipData.getBestScore());
 		} else {
 			mBestButton.setText(mBestString);
 		}
@@ -308,7 +308,7 @@ public class FlipNineFragment extends Fragment {
 			} catch (Exception e) {
 				Log.d("FlipNineFragment", "Error in saving: " + e);
 			}
-			mBestButton.setText(mBestString + "\n" + mFlipData.getBestScore());
+			mBestButton.setText(mBestString + mFlipData.getBestScore());
 
 			for (Button tile : mTileButtons) {
 				tile.setEnabled(false);
@@ -340,7 +340,6 @@ public class FlipNineFragment extends Fragment {
 	}
 
 	private class TileListener2 implements OnTouchListener {
-
 
 		private int position;
 
