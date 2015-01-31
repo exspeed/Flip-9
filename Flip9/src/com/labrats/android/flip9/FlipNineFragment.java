@@ -52,6 +52,7 @@ public class FlipNineFragment extends Fragment {
 	private Stack<Integer> mStackHistory;
 	private MediaPlayer mSoundEffect;
 	private ArrayList<FlipData> list;
+	FlipAnimation flip;
 	
 	public static FlipNineFragment newInstance(UUID gameId) {
 		Bundle info = new Bundle();
@@ -89,7 +90,8 @@ public class FlipNineFragment extends Fragment {
 		}
 
 		initialize();
-
+		flip = new FlipAnimation(getActivity(), mTileButtons);
+		
 		mTitleTextView = (TextView) v.findViewById(R.id.titleTextView);
 		mTitleTextView.setText(mFlipData.getTitle());
 
@@ -104,6 +106,7 @@ public class FlipNineFragment extends Fragment {
 
 			@Override
 			public void onClick(View v) {
+				
 				if (mStackHistory.isEmpty())
 					return;
 				mCounter--;
@@ -142,7 +145,7 @@ public class FlipNineFragment extends Fragment {
 			public void onClick(View v) {
 				PopupWindow infoPopUp = new PopupWindow(getActivity());
 				TextView textW = new TextView(getActivity());
-				LayoutParams layout = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+				LayoutParams layout = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 				textW.setLayoutParams(layout);
 				textW.setTextColor(-1);
 				textW.setTextSize(24);
@@ -227,7 +230,7 @@ public class FlipNineFragment extends Fragment {
 	private void updateChange() {
 		int temp = mFlipData.getCurrentState();
 		for (int i = 0; i < 9; i++) {
-			mTileButtons[i].setPressed(false);
+			//mTileButtons[i].setPressed(false);
 			if ((temp & 1) == 1)
 				mTileButtons[i].setBackgroundResource(R.drawable.tile_start_state);
 			else {
@@ -297,9 +300,11 @@ public class FlipNineFragment extends Fragment {
 				mStackHistory.push(position);
 				playSound();
 				mFlipData.flipTile(position);
-				updateChange();
-				checkCompleted();
+				flip.start(position, mFlipData.getCurrentState());
+		
 
+				checkCompleted();
+				
 				// remove " * "
 				if (mTileButtons[position].getText().equals("*"))
 					mTileButtons[position].setText("");

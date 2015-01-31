@@ -9,9 +9,9 @@
     android:paddingTop="8dp"
     android:stretchColumns="*" >
 
-    <LinearLayout 
-        android:gravity="left|bottom" 
-        android:padding="16dp">
+    <LinearLayout
+        android:gravity="left|bottom"
+        android:padding="16dp" >
     </LinearLayout>
 
     <LinearLayout
@@ -27,9 +27,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_gravity="top|left"
-            android:background="@drawable/info"
-           
-             />
+            android:background="@drawable/info" />
 
         <TextView
             android:id="@+id/titleTextView"
@@ -40,6 +38,8 @@
             android:padding="8dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="25sp"
+          	android:textStyle="bold" 
+          	android:textColor="#585858"
             android:typeface="sans" />
 
         <TextView
