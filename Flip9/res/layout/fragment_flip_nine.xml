@@ -63,7 +63,7 @@
             android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:background="@drawable/gray_rectangle"
-            android:text="@string/best"
+            android:text="@string/record"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#E6E6E6"
             android:typeface="sans" />

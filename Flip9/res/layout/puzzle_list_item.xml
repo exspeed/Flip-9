@@ -3,7 +3,9 @@
     android:id="@+id/linearLayout1"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="end" >
+    android:gravity="end"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp" >
 
     <TextView
         android:id="@+id/level_list_textView"
@@ -11,25 +13,23 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center|start"
-        android:paddingLeft="16dp"
-        android:text="Puzzle"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <LinearLayout
         android:id="@+id/puzzle_list_vertial_layout"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:gravity="end"
         android:orientation="vertical" >
 
         <RatingBar
             android:id="@+id/level_list_ratingBar"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_weight="1"
             android:layout_gravity="center"
+            android:layout_weight="1"
             android:clickable="false"
-      		
             android:isIndicator="true"
             android:numStars="3"
             android:scaleX="0.75"
@@ -40,8 +40,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:paddingBottom="8dp" />
+            android:paddingBottom="3dp"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
     </LinearLayout>
 
 </LinearLayout>

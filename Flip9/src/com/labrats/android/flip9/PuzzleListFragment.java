@@ -72,14 +72,14 @@ public class PuzzleListFragment extends ListFragment {
 					.findViewById(R.id.puzzle_list_vertial_layout);
 			TextView bestScoreTextView = (TextView) verticalLayout
 					.getChildAt(1);
+			String record = getResources().getString(R.string.record);
 			if (data.getStars() > 0) {
-				String best = getResources().getString(R.string.best);
-				bestScoreTextView.setText(best + " "
+
+				bestScoreTextView.setText(record +" "
 						+ getItem(position).getBestScore());
-				
+
 			} else {
-				bestScoreTextView.setText("");
-		
+				bestScoreTextView.setText(record + " - -");
 			}
 			RatingBar puzzleRatingBar = (RatingBar) verticalLayout
 					.getChildAt(0);
