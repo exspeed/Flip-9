@@ -79,10 +79,10 @@ public class FlipNineFragment extends Fragment {
 		mMoveTextView.setText(mMoveString + "0");
 
 		TableLayout tableLayout = (TableLayout) v
-				.findViewById(R.id.fragment_flip_nine_tableLayout);
+				.findViewById(R.id.tablelayout_buttons);
 		// if the layout were to change, this will crash
 		int index = 0;
-		for (int i = 2; i <= 4; i++) {
+		for (int i = 0; i < 3; i++) {
 			TableRow tableRow = (TableRow) tableLayout.getChildAt(i);
 			for (int j = 0; j < tableRow.getChildCount(); j++) {
 				mTileButtons[index] = (Button) tableRow.getChildAt(j);
@@ -397,7 +397,6 @@ public class FlipNineFragment extends Fragment {
 				mask >>= 1;
 			}
 		}
-// comment
 		private void playSound() {
 			if (mSoundEffect == null) {
 				mSoundEffect = MediaPlayer.create(getActivity(), R.raw.mouse1);
