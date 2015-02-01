@@ -405,19 +405,15 @@ public class FlipNineFragment extends Fragment {
 			mSoundEffect.setOnCompletionListener(new OnCompletionListener() {
 				@Override
 				public void onCompletion(MediaPlayer mp) {
-					if(mp == mSoundEffect){
-						mSoundEffect.start();
-					}
-					/*
 					if (mSoundEffect != null) {
 						mSoundEffect.release();
 						mSoundEffect = null;
 					}
-					*/
+					
 
 				}
 			});
-			//mSoundEffect.start();
+			mSoundEffect.start();
 		}
 
 	}
