@@ -151,7 +151,7 @@ public class FlipNineFragment extends Fragment {
 				PopupWindow infoPopUp = new PopupWindow(getActivity());
 				TextView textW = new TextView(getActivity());
 				LayoutParams layout = new LayoutParams(
-						LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+						LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 				textW.setLayoutParams(layout);
 				textW.setTextColor(-1);
 				textW.setTextSize(16);
