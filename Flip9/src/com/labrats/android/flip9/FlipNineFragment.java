@@ -7,8 +7,10 @@ import java.util.UUID;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Rect;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -53,7 +55,8 @@ public class FlipNineFragment extends Fragment {
 	private ImageButton mInfoButton;
 	private Button mRestartButton;
 	private Stack<Integer> mStackHistory;
-	private MediaPlayer mSoundEffect;
+	private SoundPool mSoundEffect;
+	//private MediaPlayer mSoundEffect;
 	private ArrayList<FlipData> list;
 
 	private Animation mVerticalIn;
@@ -399,6 +402,10 @@ public class FlipNineFragment extends Fragment {
 		}
 
 		private void playSound() {
+			mSoundEffect = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+			int mFlipSound = mSoundEffect.load(getActivity(), R.raw.mouse1, 1);
+			mSoundEffect.play(mFlipSound, 1.0f, 1.0f, 0, 0, 1.5f);		
+			/*
 			if (mSoundEffect == null) {
 				mSoundEffect = MediaPlayer.create(getActivity(), R.raw.mouse1);
 			}
@@ -414,6 +421,7 @@ public class FlipNineFragment extends Fragment {
 				}
 			});
 			mSoundEffect.start();
+			*/
 		}
 
 	}
