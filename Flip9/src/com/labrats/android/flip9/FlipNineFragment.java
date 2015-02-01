@@ -331,7 +331,6 @@ public class FlipNineFragment extends Fragment {
 		}
 	}
 
-
 	private class TileListener2 implements OnTouchListener {
 
 		private final int POSITION;
@@ -340,8 +339,9 @@ public class FlipNineFragment extends Fragment {
 
 		public TileListener2(int index) {
 			this.POSITION = index;
-	
+
 		}
+
 		/*
 		 * Learn how to detect cancel action
 		 * http://stackoverflow.com/questions/6410200/
@@ -397,6 +397,7 @@ public class FlipNineFragment extends Fragment {
 				mask >>= 1;
 			}
 		}
+
 		private void playSound() {
 			if (mSoundEffect == null) {
 				mSoundEffect = MediaPlayer.create(getActivity(), R.raw.mouse1);
@@ -404,19 +405,20 @@ public class FlipNineFragment extends Fragment {
 			mSoundEffect.setOnCompletionListener(new OnCompletionListener() {
 				@Override
 				public void onCompletion(MediaPlayer mp) {
-					if(mp == mSoundEffect){
-						mSoundEffect.start();
-					}
 					/*
+					  if(mp == mSoundEffect){ mSoundEffect.start(); }
+					 */
+
 					if (mSoundEffect != null) {
+						mSoundEffect.reset();
 						mSoundEffect.release();
+
 						mSoundEffect = null;
 					}
-					*/
 
 				}
 			});
-			//mSoundEffect.start();
+			mSoundEffect.start();
 		}
 
 	}
