@@ -6,9 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -22,8 +23,8 @@ public class PuzzleListFragment extends ListFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setHasOptionsMenu(true);
 		mLevelList = UserData.get(getActivity()).getLevelList();
-
 		setListAdapter(new LevelAdapter(mLevelList));
 	}
 
@@ -31,6 +32,13 @@ public class PuzzleListFragment extends ListFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		return super.onCreateView(inflater, container, savedInstanceState);
+	}
+	
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		
+		inflater.inflate(R.menu.main, menu);
+		super.onCreateOptionsMenu(menu, inflater);
 	}
 
 	@Override
