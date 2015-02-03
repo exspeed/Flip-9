@@ -26,15 +26,16 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_gravity="start|top"
+            android:layout_marginLeft="5dp"
             android:background="@drawable/info"
             android:padding="3dp" />
 
         <TextView
             android:id="@+id/titleTextView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:gravity="left|center"
+            android:gravity="center"
             android:padding="8dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="#585858"
@@ -44,7 +45,7 @@
 
         <TextView
             android:id="@+id/moveTextView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginRight="3dp"
             android:layout_weight="1"
@@ -58,7 +59,7 @@
         <Button
             android:id="@+id/bestButton"
             style="?android:attr/borderlessButtonStyle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
@@ -75,8 +76,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:background="@drawable/light_gray_rectangle"
-        android:padding="5dp"
-         >
+        android:padding="5dp" >
 
         <TableRow
             android:id="@+id/tableRow1"
@@ -122,7 +122,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:paddingBottom="8dp"
+        android:paddingBottom="16dp"
         android:paddingTop="16dp" >
 
         <Button

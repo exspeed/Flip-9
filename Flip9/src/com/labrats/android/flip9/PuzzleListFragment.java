@@ -83,11 +83,11 @@ public class PuzzleListFragment extends ListFragment {
 			String record = getResources().getString(R.string.record);
 			if (data.getStars() > 0) {
 
-				bestScoreTextView.setText(record +" "
+				bestScoreTextView.setText(record +": "
 						+ getItem(position).getBestScore());
 
 			} else {
-				bestScoreTextView.setText(record + " - -");
+				bestScoreTextView.setText(record + ": - -");
 			}
 			RatingBar puzzleRatingBar = (RatingBar) verticalLayout
 					.getChildAt(0);
