@@ -69,13 +69,16 @@ public class PuzzleListFragment extends ListFragment {
 				convertView = getActivity().getLayoutInflater().inflate(
 						R.layout.puzzle_list_item, null);
 			}
-
+			
 			FlipData data = getItem(position);
 			TextView puzzleTextView = (TextView) convertView
 					.findViewById(R.id.level_list_textView);
 			String title = data.getTitle();
+			if(UserData.get(getActivity()).getUserCurrentLevent() < position){
+				puzzleTextView.setText("???");
+			}else{
 			puzzleTextView.setText(title);
-
+			}
 			LinearLayout verticalLayout = (LinearLayout) convertView
 					.findViewById(R.id.puzzle_list_vertial_layout);
 			TextView bestScoreTextView = (TextView) verticalLayout
@@ -89,9 +92,11 @@ public class PuzzleListFragment extends ListFragment {
 			} else {
 				bestScoreTextView.setText(record + ": - -");
 			}
+			
 			RatingBar puzzleRatingBar = (RatingBar) verticalLayout
 					.getChildAt(0);
 			puzzleRatingBar.setRating(data.getStars());
+			
 			return convertView;
 		}
 	}

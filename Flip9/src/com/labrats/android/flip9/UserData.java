@@ -9,9 +9,12 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.ArrayList;
+
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.json.JSONTokener;
+
 import android.content.Context;
 import android.util.Log;
 
@@ -21,6 +24,7 @@ public class UserData {
 	private ArrayList<FlipData> mLevelList;
 	private Context mContext;
 	private final String mFilename = "userdata.json";
+	private int mCurrentLevel;
 
 	private UserData(Context c) {
 		mContext = c;
@@ -38,6 +42,7 @@ public class UserData {
 				mLevelList.add(data);
 
 			}
+			mCurrentLevel = 0;
 			Log.d("UserData", "Fail to load");
 		}
 	}
@@ -52,20 +57,37 @@ public class UserData {
 	public ArrayList<FlipData> getLevelList() {
 		return mLevelList;
 	}
+	
+	public int getUserCurrentLevent() {
+		return mCurrentLevel;
+	}
 
 	public void saveData() throws JSONException, IOException {
 		JSONArray jsonArray = new JSONArray();
+		boolean lastCompletedLevelFound = false;
+		int i = 0;
 		for (FlipData data : mLevelList) {
 			jsonArray.put(data.toJSON());
+			if(data.getStars() == 0 && !lastCompletedLevelFound){
+				mCurrentLevel = i;
+				lastCompletedLevelFound = true;
+			}
+			i++;
 		}
 
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("flipdata", jsonArray);
+		
+		jsonObject.put("nextlevel", mCurrentLevel);
+		
 		Writer writer = null;
 
 		try {
 			OutputStream out = mContext.openFileOutput(mFilename,
 					Context.MODE_PRIVATE);
 			writer = new OutputStreamWriter(out);
-			writer.write(jsonArray.toString());
+			writer.write(jsonObject.toString());
+			
 		} finally {
 			if (writer != null) {
 				writer.close();
@@ -87,14 +109,16 @@ public class UserData {
 				jsonString.append(line);
 			}
 
-			JSONArray array = (JSONArray) new JSONTokener(jsonString.toString())
-					.nextValue();
+			JSONObject data = new JSONObject(jsonString.toString());
+			mCurrentLevel = data.getInt("nextlevel");
+			JSONArray array = data.getJSONArray("flipdata");
+			
 			for (int i = 0; i < array.length(); i++) {
 				mLevelList.add(new FlipData(array.getJSONObject(i)));
 			}
 
 		} catch (FileNotFoundException e) {
-
+			Log.d("UserData", "loadData is broken");
 		} finally {
 			if (reader != null)
 				reader.close();
