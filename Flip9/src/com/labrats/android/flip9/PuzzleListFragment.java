@@ -4,10 +4,12 @@ import java.util.ArrayList;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -41,6 +43,17 @@ public class PuzzleListFragment extends ListFragment {
 		super.onCreateOptionsMenu(menu, inflater);
 	}
 
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch(item.getItemId()){
+		case R.id.action_settings:
+			FragmentManager fm = getActivity().getSupportFragmentManager();
+			ColorSelectDialog dialog = new ColorSelectDialog();
+			dialog.show(fm, "Choose Color");
+			
+		}
+		return true;
+	}
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		FlipData level = (FlipData) getListAdapter().getItem(position);
@@ -79,6 +92,7 @@ public class PuzzleListFragment extends ListFragment {
 			}else{
 			puzzleTextView.setText(title);
 			}
+			
 			LinearLayout verticalLayout = (LinearLayout) convertView
 					.findViewById(R.id.puzzle_list_vertial_layout);
 			TextView bestScoreTextView = (TextView) verticalLayout
