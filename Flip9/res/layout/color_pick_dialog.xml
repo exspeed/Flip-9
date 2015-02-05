@@ -6,10 +6,12 @@
     android:padding="24dp" >
 
     <include 
+        android:id="@+id/color_row1"
         layout="@layout/color_button_row"
         android:padding="16dp"/>
 
      <include 
+         android:id="@+id/color_row2"
         layout="@layout/color_button_row"/>
 
 </LinearLayout>

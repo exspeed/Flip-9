@@ -21,13 +21,7 @@
         <item name="android:textSize">40sp</item>
         <item name="android:background">@drawable/tile_start_state</item>
     </style>
-
-    <style name="ColorButton">
-        <item name="android:layout_width">48dp</item>
-        <item name="android:layout_height">48dp</item>
-        <item name="android:layout_margin">3dp</item>
-        <item name="android:background">@drawable/circle</item>
-    </style>
+    
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">

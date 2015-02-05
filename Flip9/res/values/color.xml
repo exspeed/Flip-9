@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="blue" type="color">#0000FF</item>
+    <item name="green" type="color">#33CC33</item>
+    <item name="yellow" type="color">#FFFF66</item>
+    <item name="red" type="color">#FF3300</item>
+    <item name="orange" type="color">#FF9933</item>
+    <item name="pink" type="color">#FF66CC</item>
+    <item name="purple" type="color">#9933FF</item>
+    <item name="teal" type="color">#00FFCC</item>
+    
+    <array name="tilecolors">
+        <item >@color/blue</item>
+        <item >@color/green</item>
+        <item >@color/yellow</item>
+        <item >@color/red</item>
+        <item >@color/orange</item>
+        <item >@color/pink</item>
+        <item >@color/purple</item>
+        <item >@color/teal</item>
+        
+        
+    </array>
+</resources>
