@@ -5,97 +5,11 @@
     android:orientation="vertical"
     android:padding="24dp" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:paddingBottom="16dp" >
+    <include 
+        layout="@layout/color_button_row"
+        android:padding="16dp"/>
 
-        <Button
-            android:id="@+id/button1"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_margin="3dp"
-            android:background="@drawable/circle"
-            android:text="M" />
-
-        <Button
-            android:id="@+id/button2"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_margin="3dp"
-            android:background="@drawable/circle"
-            android:padding="3dp"
-            android:text="O" />
-
-        <Button
-            android:id="@+id/button3"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_margin="3dp"
-            android:background="@drawable/circle"
-            android:padding="3dp"
-            android:text="R" />
-
-        <Button
-            android:id="@+id/button4"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_margin="3dp"
-            android:background="@drawable/circle"
-            android:padding="3dp"
-            android:text="E" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center" >
-
-       <Button
-            android:id="@+id/button5"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_margin="3dp"
-            android:background="@drawable/circle"
-            android:text="W" />
-
-        <Button
-            android:id="@+id/button6"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_margin="3dp"
-            android:background="@drawable/circle"
-            android:padding="3dp"
-            android:text="O" />
-
-        <Button
-            android:id="@+id/button7"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_margin="3dp"
-            android:background="@drawable/circle"
-            android:padding="3dp"
-            android:text="R" />
-
-        <Button
-            android:id="@+id/button8"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_margin="3dp"
-            android:background="@drawable/circle"
-            android:padding="3dp"
-            android:text="K" />
-    </LinearLayout>
+     <include 
+        layout="@layout/color_button_row"/>
 
 </LinearLayout>
