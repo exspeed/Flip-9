@@ -5,41 +5,47 @@
     android:gravity="center"
     android:orientation="horizontal" >
 
-      <Button
+      <ImageButton
         android:id="@+id/button1"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_margin="3dp"
         android:background="@drawable/circle"
-        android:padding="3dp" />
+        android:padding="3dp"
+        android:contentDescription="@null" 
+        />
 
 
-    <Button
+    <ImageButton
         android:id="@+id/button2"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_margin="3dp"
         android:background="@drawable/circle"
-        android:padding="3dp" />
+        android:padding="3dp"
+        android:contentDescription="@null" 
+         />
 
-    <Button
+    <ImageButton
         android:id="@+id/button3"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_margin="3dp"
         android:background="@drawable/circle"
-        android:padding="3dp" />
+        android:padding="3dp"
+        android:contentDescription="@null"  />
 
-    <Button
+    <ImageButton
         android:id="@+id/button4"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_margin="3dp"
         android:background="@drawable/circle"
-        android:padding="3dp" />
+        android:padding="3dp"
+        android:contentDescription="@null"  />
 
 </LinearLayout>
