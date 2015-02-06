@@ -3,12 +3,12 @@ package com.labrats.android.flip9;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.res.TypedArray;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
@@ -21,15 +21,25 @@ public class ColorSelectDialog extends DialogFragment {
 				R.layout.color_pick_dialog, null);
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
+		UserData data = UserData.get(getActivity());
 		initializeColorButton(v);
 
-		colorButtons[0].setImageResource(R.drawable.check);
+		colorButtons[data.getColorIndex()].setImageResource(R.drawable.check);
 
 		builder.setTitle("Color");
 		builder.setView(v);
 
-		builder.setPositiveButton("OK", null);
+		builder.setPositiveButton("OK", new OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				try {
+					UserData.get(getActivity()).saveData();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 
 		return builder.create();
 	}
@@ -52,7 +62,7 @@ public class ColorSelectDialog extends DialogFragment {
 		int count = 0;
 
 		for (int i = 0; i < colorButtons.length; i++) {
-			colorButtons[i].setOnClickListener(new AddCheckListener());
+			colorButtons[i].setOnClickListener(new AddCheckListener(i));
 			GradientDrawable background = (GradientDrawable) colorButtons[i]
 					.getBackground();
 			background.mutate();
@@ -60,20 +70,25 @@ public class ColorSelectDialog extends DialogFragment {
 			count++;
 
 		}
-
 		colors.recycle();
 	}
 
-	private class AddCheckListener implements OnClickListener {
+	private class AddCheckListener implements View.OnClickListener {
+
+		int position;
+
+		public AddCheckListener(int position) {
+			this.position = position;
+		}
 
 		@Override
 		public void onClick(View v) {
-			for (int i = 0; i < colorButtons.length; i++) {
-				colorButtons[i].setImageDrawable(null);
-			}
+
+			colorButtons[UserData.get(getActivity()).getColorIndex()]
+					.setImageDrawable(null);
 
 			((ImageButton) v).setImageResource(R.drawable.check);
-
+			UserData.get(getActivity()).setColorPreference(position);
 		}
 
 	}

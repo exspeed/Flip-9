@@ -13,10 +13,11 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.util.Log;
+import android.widget.Toast;
 
 public class UserData {
 
@@ -25,6 +26,8 @@ public class UserData {
 	private Context mContext;
 	private final String mFilename = "userdata.json";
 	private int mCurrentLevel;
+	private TypedArray mColorPalette;
+	private int mColorIndex;
 
 	private UserData(Context c) {
 		mContext = c;
@@ -33,6 +36,8 @@ public class UserData {
 		} catch (Exception e) {
 			Log.e("UserData", "Error loading data: " + e);
 		}
+		mColorPalette = c.getResources().obtainTypedArray(
+				R.array.tilecolors);
 
 		if (mLevelList.isEmpty()) {
 			mLevelList = new ArrayList<FlipData>();
@@ -43,6 +48,7 @@ public class UserData {
 
 			}
 			mCurrentLevel = 0;
+			mColorIndex = 0;
 			Log.d("UserData", "Fail to load");
 		}
 	}
@@ -54,12 +60,33 @@ public class UserData {
 		return sUserData;
 	}
 
+	
+	
 	public ArrayList<FlipData> getLevelList() {
 		return mLevelList;
 	}
-	
+
 	public int getUserCurrentLevent() {
 		return mCurrentLevel;
+	}
+	
+	public int getColor(){
+		int choice = mColorPalette.getColor(mColorIndex,0) ;
+		mColorPalette.recycle();
+		return choice;
+	}
+	
+	public int getColorIndex(){
+		return mColorIndex;
+	}
+	
+	public void setColorPreference(int index){
+		if(mColorPalette.length() < index){
+			Log.d("UserData", "setColorPreference: index outofbounds");
+		}
+		else{
+			mColorIndex = index;
+		}
 	}
 
 	public void saveData() throws JSONException, IOException {
@@ -68,7 +95,7 @@ public class UserData {
 		int i = 0;
 		for (FlipData data : mLevelList) {
 			jsonArray.put(data.toJSON());
-			if(data.getStars() == 0 && !lastCompletedLevelFound){
+			if (data.getStars() == 0 && !lastCompletedLevelFound) {
 				mCurrentLevel = i;
 				lastCompletedLevelFound = true;
 			}
@@ -77,9 +104,9 @@ public class UserData {
 
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("flipdata", jsonArray);
-		
+		jsonObject.put("color", mColorIndex);
 		jsonObject.put("nextlevel", mCurrentLevel);
-		
+
 		Writer writer = null;
 
 		try {
@@ -87,7 +114,7 @@ public class UserData {
 					Context.MODE_PRIVATE);
 			writer = new OutputStreamWriter(out);
 			writer.write(jsonObject.toString());
-			
+
 		} finally {
 			if (writer != null) {
 				writer.close();
@@ -108,11 +135,12 @@ public class UserData {
 			while ((line = reader.readLine()) != null) {
 				jsonString.append(line);
 			}
-
+			Toast.makeText(mContext, "load data", Toast.LENGTH_SHORT).show();
 			JSONObject data = new JSONObject(jsonString.toString());
 			mCurrentLevel = data.getInt("nextlevel");
+			mColorIndex = data.getInt("color");
 			JSONArray array = data.getJSONArray("flipdata");
-			
+
 			for (int i = 0; i < array.length(); i++) {
 				mLevelList.add(new FlipData(array.getJSONObject(i)));
 			}

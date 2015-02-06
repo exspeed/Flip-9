@@ -1,13 +1,13 @@
 package com.labrats.android.flip9;
 
 import java.util.ArrayList;
-
 import java.util.Stack;
 import java.util.UUID;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Rect;
+import android.graphics.drawable.GradientDrawable;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
@@ -286,7 +286,11 @@ public class FlipNineFragment extends Fragment {
 						.setBackgroundResource(R.drawable.tile_start_state);
 			else {
 				mTileButtons[i]
-						.setBackgroundResource(R.drawable.tile_end_state);
+						.setBackgroundResource(R.drawable.tile_end_state_normal);
+				GradientDrawable background = (GradientDrawable) mTileButtons[i]
+						.getBackground();
+				background.mutate();
+				background.setColor(UserData.get(getActivity()).getColor());
 			}
 			temp >>= 1;
 		}
