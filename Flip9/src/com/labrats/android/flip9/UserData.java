@@ -71,9 +71,7 @@ public class UserData {
 	}
 	
 	public int getColor(){
-		int choice = mColorPalette.getColor(mColorIndex,0) ;
-		mColorPalette.recycle();
-		return choice;
+		return mColorPalette.getColor(mColorIndex,0) ;
 	}
 	
 	public int getColorIndex(){

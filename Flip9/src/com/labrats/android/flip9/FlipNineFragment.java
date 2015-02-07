@@ -174,7 +174,6 @@ public class FlipNineFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				restart();
-
 			}
 		});
 
@@ -291,6 +290,7 @@ public class FlipNineFragment extends Fragment {
 						.getBackground();
 				background.mutate();
 				background.setColor(UserData.get(getActivity()).getColor());
+				
 			}
 			temp >>= 1;
 		}
