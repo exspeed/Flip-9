@@ -1,6 +1,7 @@
 package com.labrats.android.flip9;
 
 import android.os.Bundle;
+	
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,23 +18,11 @@ public class MainMenuFragment extends Fragment {
 	private Button mNightmareButton;
 	private Button mSettingsButton;
 	
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		return super.onCreateView(inflater, container, savedInstanceState);
-	}
 	
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		
-		inflater.inflate(R.menu.main, menu);
-		super.onCreateOptionsMenu(menu, inflater);
-	}
-/*
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View v = inflater
-				.inflate(R.layout.fragment_flip_nine, container, false);
+				.inflate(R.layout.activity_main_menu, container, false);
 
 		mClassicButton = (Button)v.findViewById(R.id.Classic);
 		mClassicButton.setOnClickListener(new OnClickListener() {
@@ -81,5 +70,5 @@ public class MainMenuFragment extends Fragment {
 		return v;
 
 	}
-*/
+
 }
