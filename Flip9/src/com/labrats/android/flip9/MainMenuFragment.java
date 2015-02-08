@@ -1,8 +1,10 @@
 package com.labrats.android.flip9;
 
+import android.content.Intent;
 import android.os.Bundle;
 	
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -31,6 +33,9 @@ public class MainMenuFragment extends Fragment {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Log.e("Hi", "Classic Menu");
+				Intent i = new Intent(getActivity(), PuzzleListActivity.class);
+				startActivity(i);
+				
 				
 			}
 		});
@@ -64,7 +69,9 @@ public class MainMenuFragment extends Fragment {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Log.e("Hi", "Settings Menu");
-				
+				FragmentManager fm = getActivity().getSupportFragmentManager();
+				ColorSelectDialog dialog = new ColorSelectDialog();
+				dialog.show(fm, "Choose Color");
 			}
 		});
 		return v;
