@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linearLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="end"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp" >
+
+	<Button
+	    android:id="@+id/Classic"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center_horizontal"
+	    android:text="Classic" />
+
+   <Button
+       android:id="@+id/Time_Trial"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Time Trial" />
+
+   <Button
+       android:id="@+id/Nightmare"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Nightmare" />
+
+   <Button
+       android:id="@+id/Settings"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Settings" />
+
+</LinearLayout>

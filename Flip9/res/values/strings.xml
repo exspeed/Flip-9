@@ -7,6 +7,8 @@
     <string name="restart">Restart</string>
     <string name="undo">Undo</string>
     <string name="cheat">Cheat</string>
-    <string name ="record">Record</string>
+    <string name="record">Record</string>
+    <string name="title_activity_main_menu">MainMenuActivity</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>
