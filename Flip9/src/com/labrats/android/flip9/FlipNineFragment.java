@@ -335,6 +335,8 @@ public class FlipNineFragment extends Fragment {
 		}
 	}
 
+
+	
 	private class TileListener2 implements OnTouchListener {
 
 		private final int POSITION;

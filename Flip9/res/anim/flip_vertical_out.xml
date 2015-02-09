@@ -11,6 +11,7 @@
     
     android:fromYScale="0.0"
     android:toYScale="1.0"
+    android:interpolator="@android:anim/accelerate_interpolator"
     
     >
     

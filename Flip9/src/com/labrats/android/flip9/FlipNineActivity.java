@@ -14,4 +14,9 @@ public class FlipNineActivity extends SingleFragmentActivity {
 		return FlipNineFragment.newInstance(gameId);
 	}
 
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		this.overridePendingTransition(R.anim.translate_right_in, R.anim.translate_right_out);
+	}
 }
