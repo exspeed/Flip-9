@@ -61,6 +61,7 @@ public class PuzzleListFragment extends ListFragment {
 
 		i.putExtra(FlipNineFragment.EXTRA_GAME_ID, level.getId());
 		startActivity(i);
+		getActivity().overridePendingTransition(R.anim.translate_in,R.anim.translate_out);
 
 	}
 

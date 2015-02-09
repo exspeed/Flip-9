@@ -4,9 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F8F8F8"
-    android:paddingLeft="8dp"
-    android:paddingRight="8dp"
-    android:paddingTop="8dp"
     android:stretchColumns="*" >
 
     <LinearLayout android:padding="16dp" >
@@ -15,6 +12,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:gravity="end"
         android:orientation="horizontal"
         android:paddingBottom="8dp"
@@ -74,6 +73,8 @@
         android:id="@+id/tablelayout_buttons"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:layout_weight="1"
         android:background="@drawable/light_gray_rectangle"
         android:padding="5dp" >
@@ -122,8 +123,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:paddingBottom="16dp"
-        android:paddingTop="16dp" >
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp" >
 
         <Button
             android:id="@+id/restartButton"
@@ -132,6 +133,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawableTop="@drawable/restart"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
             android:text="@string/restart" />
 
         <Button
@@ -141,6 +144,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawableTop="@drawable/undo"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
             android:text="@string/undo" />
     </LinearLayout>
 
