@@ -10,5 +10,9 @@
     <string name="record">Record</string>
     <string name="title_activity_main_menu">MainMenuActivity</string>
     <string name="hello_world">Hello world!</string>
+    <string name="classic">Classic</string>
+    <string name="time">Time Trial</string>
+    <string name="nightmare">Nightmare</string>
+    <string name="setting">Settings</string>
 
 </resources>

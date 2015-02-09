@@ -35,8 +35,6 @@ public class MainMenuFragment extends Fragment {
 				Log.e("Hi", "Classic Menu");
 				Intent i = new Intent(getActivity(), PuzzleListActivity.class);
 				startActivity(i);
-				
-				
 			}
 		});
 		
