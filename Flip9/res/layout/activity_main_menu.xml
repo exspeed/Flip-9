@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/linearLayout1"
-    style="@style/column_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="start"
+    android:gravity="center"
     android:orientation="vertical"
     android:paddingLeft="8dp"
-    android:paddingRight="8dp" >
+    android:paddingRight="8dp" 
+    android:background="@drawable/mainbg">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -23,7 +23,7 @@
             android:layout_margin="8dp"
             android:text="Classic"
             android:textStyle="bold" />
-
+ <!--  
         <Button
             android:id="@+id/Time_Trial"
             style="@android:style/Widget.Button"
@@ -41,7 +41,7 @@
             android:layout_margin="8dp"
             android:text="Nightmare"
             android:textStyle="bold" />
-
+-->
         <Button
             android:id="@+id/Settings"
             style="@android:style/Widget.Button"
