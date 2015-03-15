@@ -65,10 +65,10 @@ public class TimeTrialFragment extends Fragment{
 	private Animation mVerticalIn;
 	private Animation mVerticalOut;
 
-	public static FlipNineFragment newInstance(UUID gameId) {
+	public static TimeTrialFragment newInstance(UUID gameId) {
 		Bundle info = new Bundle();
 		info.putSerializable(EXTRA_GAME_ID, gameId);
-		FlipNineFragment fragment = new FlipNineFragment();
+		TimeTrialFragment fragment = new TimeTrialFragment();
 		fragment.setArguments(info);
 
 		return fragment;
@@ -78,7 +78,7 @@ public class TimeTrialFragment extends Fragment{
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View v = inflater
-				.inflate(R.layout.fragment_flip_nine, container, false);
+				.inflate(R.layout.activity_time_trial, container, false);
 
 		mMoveTextView = (TextView) v.findViewById(R.id.moveTextView);
 		mMoveString = mMoveTextView.getText().toString() + " "; // kind of bad??
@@ -185,7 +185,7 @@ public class TimeTrialFragment extends Fragment{
 		
 		//Timer stuff
 		mTimer = (TextView) v.findViewById(R.id.TimeTrialTimer);
-		mhandler = new Handler();
+		/*mhandler = new Handler();
 		Runnable runnable = new Runnable(){
 
 			@Override
@@ -213,7 +213,7 @@ public class TimeTrialFragment extends Fragment{
 				}
 		};
 		new Thread(runnable).start();
-		
+		*/
 		return v;
 		
 
