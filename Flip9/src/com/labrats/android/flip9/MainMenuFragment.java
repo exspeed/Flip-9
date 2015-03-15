@@ -37,7 +37,7 @@ public class MainMenuFragment extends Fragment {
 				startActivity(i);
 			}
 		});
-		
+		/*
 		mTimeTrialButton = (Button)v.findViewById(R.id.Time_Trial);
 		mTimeTrialButton.setOnClickListener(new OnClickListener() {
 			
@@ -59,6 +59,7 @@ public class MainMenuFragment extends Fragment {
 				
 			}
 		});
+		*/
 		
 		mTimeTrialButton = (Button) v.findViewById(R.id.Settings);
 		mTimeTrialButton.setOnClickListener(new OnClickListener() {
