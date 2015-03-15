@@ -39,7 +39,7 @@ public class UserData {
 		mColorPalette = c.getResources().obtainTypedArray(
 				R.array.tilecolors);
 
-		if (mLevelList.isEmpty()) {
+		if (mLevelList.isEmpty()) { // check if empty
 			mLevelList = new ArrayList<FlipData>();
 			for (int i = 1; i <= 30; i++) {
 				FlipData data = new FlipData(53 * i % 512);
