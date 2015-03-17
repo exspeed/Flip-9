@@ -10,6 +10,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class TimeTrialActivity extends SingleFragmentActivity {
+	/*
+	@Override
+	protected Fragment createFragment() {
+		return new TimeTrialFragment();
+	}
+	*/
+	
 	@Override
 	protected Fragment createFragment() {
 		Intent i = getIntent();
@@ -22,4 +29,5 @@ public class TimeTrialActivity extends SingleFragmentActivity {
 		super.onBackPressed();
 		this.overridePendingTransition(R.anim.translate_right_in, R.anim.translate_right_out);
 	}
+	
 }

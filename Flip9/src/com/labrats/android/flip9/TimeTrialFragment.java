@@ -3,6 +3,7 @@ package com.labrats.android.flip9;
 import java.util.ArrayList;
 import java.util.Stack;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -48,9 +50,11 @@ public class TimeTrialFragment extends Fragment{
 	private int mCounter = 0; // the number of time the user press a tile
 	private int mArrayListIndex;
 	private int mCheatCount = 0;
+	
 	private int mTime;
-	private TextView mTimer;
+	public TextView mTimer;
 	private Handler mhandler;
+	
 	private boolean running = true;
 	private TextView mMoveTextView;
 	private Button mBestButton;
@@ -185,6 +189,10 @@ public class TimeTrialFragment extends Fragment{
 		
 		//Timer stuff
 		mTimer = (TextView) v.findViewById(R.id.TimeTrialTimer);
+		mTimer.setText("00:02:00");
+		Timer countDown = new Timer(120000, 1000);
+		countDown.start();
+		
 		/*mhandler = new Handler();
 		Runnable runnable = new Runnable(){
 
@@ -341,7 +349,7 @@ public class TimeTrialFragment extends Fragment{
 			try {
 				UserData.get(getActivity()).saveData();
 			} catch (Exception e) {
-				Log.d("FlipNineFragment", "Error in saving: " + e);
+				Log.d("TimeTrial ", "Error in saving: " + e);
 			}
 			mBestButton.setText(mBestString + mFlipData.getBestScore());
 
@@ -469,3 +477,4 @@ public class TimeTrialFragment extends Fragment{
 	}
 
 }
+
