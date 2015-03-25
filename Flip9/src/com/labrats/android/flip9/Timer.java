@@ -6,7 +6,7 @@ import android.os.CountDownTimer;
 import android.widget.TextView;
 
 public class Timer extends CountDownTimer {
-	public static final int TWOMNUTES = 120000;
+	public static final int TWOMNUTES = 120999;
 	public static final int ONESECOND = 1000;
 	private TextView clock;
 
@@ -37,7 +37,7 @@ public class Timer extends CountDownTimer {
 
 	@Override
 	public void onFinish() {
-		String done = "Done";
+		String done = "Game Over";
 		clock.setText(done);
 
 	}/*

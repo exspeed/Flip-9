@@ -42,7 +42,7 @@
             android:textStyle="bold"
             android:typeface="sans" />
 
-        <Button
+        <TextView
             android:id="@+id/bestButton"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="0dp"
@@ -124,16 +124,7 @@
             android:paddingTop="8dp"
             android:text="@string/restart" />
 
-        <Button
-            android:id="@+id/undoButton"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/undo"
-            android:paddingBottom="8dp"
-            android:paddingTop="8dp"
-            android:text="@string/undo" />
+     
     </LinearLayout>
 
 </TableLayout>
