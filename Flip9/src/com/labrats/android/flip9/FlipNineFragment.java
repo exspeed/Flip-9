@@ -34,7 +34,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 public class FlipNineFragment extends Fragment {
-
+	//Initalize variables
 	public static final String EXTRA_GAME_ID = "game id";
 	private static final int REQUEST_COMPLETION = 0;
 
@@ -68,6 +68,7 @@ public class FlipNineFragment extends Fragment {
 		return fragment;
 	}
 
+	//Setting up the game data
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -96,7 +97,7 @@ public class FlipNineFragment extends Fragment {
 
 		initialize();
 		initializeAnimation();
-
+		//Set text 
 		mTitleTextView = (TextView) v.findViewById(R.id.titleTextView);
 		mTitleTextView.setText(mFlipData.getTitle());
 
@@ -108,7 +109,7 @@ public class FlipNineFragment extends Fragment {
 			mBestButton.setText(mBestString);
 
 		}
-
+		//Listener for undo button
 		mUndoButton = (Button) v.findViewById(R.id.undoButton);
 		mUndoButton.setOnClickListener(new OnClickListener() {
 
@@ -124,7 +125,7 @@ public class FlipNineFragment extends Fragment {
 				updateChange();
 			}
 		});
-
+		//Listener for cheat. Shhhhhhh
 		mBestButton.setOnLongClickListener(new OnLongClickListener() {
 
 			@Override
@@ -142,7 +143,7 @@ public class FlipNineFragment extends Fragment {
 				return true;
 			}
 		});
-
+		//Listener for info button
 		mInfoButton = (ImageButton) v.findViewById(R.id.infoButton);
 		mInfoButton.setOnClickListener(new OnClickListener() {
 
@@ -167,7 +168,7 @@ public class FlipNineFragment extends Fragment {
 				infoPopUp.update();
 			}
 		});
-
+		//Listener for restarting
 		mRestartButton = (Button) v.findViewById(R.id.restartButton);
 		mRestartButton.setOnClickListener(new OnClickListener() {
 
@@ -210,7 +211,7 @@ public class FlipNineFragment extends Fragment {
 	}
 
 	int touchedTile = 0;
-
+	//Animations
 	private void startAnimation(int index, Animation anim) {
 		touchedTile = index;
 		int mask = FlipData.getBitmask(index);
@@ -220,8 +221,9 @@ public class FlipNineFragment extends Fragment {
 		}
 
 	}
-
+	//Restart the game
 	private void restart() {
+		//Reset Counter to 0
 		mCounter = 0;
 		mMoveTextView.setText(mMoveString + "0");
 		mFlipData.restart();
@@ -233,7 +235,7 @@ public class FlipNineFragment extends Fragment {
 			mBestButton.setText(mBestString);
 		}
 		mTitleTextView.setText(mFlipData.getTitle());
-
+		//Reset board
 		for (Button tile : mTileButtons) {
 			if (tile.isEnabled() == false)
 				tile.setEnabled(true);
@@ -296,8 +298,11 @@ public class FlipNineFragment extends Fragment {
 		}
 	}
 
+	//Check if game is completed
 	private void checkCompleted() {
+		//Checks if game is done
 		if (mFlipData.getCurrentState() == 0) {
+			//Saves data
 			mFlipData.setBestScore(mCounter);
 			try {
 				UserData.get(getActivity()).saveData();
@@ -305,14 +310,14 @@ public class FlipNineFragment extends Fragment {
 				Log.d("FlipNineFragment", "Error in saving: " + e);
 			}
 			mBestButton.setText(mBestString + mFlipData.getBestScore());
-
+			//Make it so user cant interact with tiles
 			for (Button tile : mTileButtons) {
 				tile.setEnabled(false);
 			}
-
+			//Make it so users cant interact with buttons
 			mBestButton.setEnabled(false);
 			mUndoButton.setEnabled(false);
-
+			//Show CompleteDialog
 			FragmentManager fm = getActivity().getSupportFragmentManager();
 			CompleteDialog dialog = CompleteDialog.newInstance(mCounter);
 			dialog.setTargetFragment(this, REQUEST_COMPLETION);
@@ -404,6 +409,7 @@ public class FlipNineFragment extends Fragment {
 			}
 		}
 
+		//Play sound when tile is touched
 		private void playSound() {
 			if (mSoundEffect == null) {
 				mSoundEffect = MediaPlayer.create(getActivity(), R.raw.mouse1);

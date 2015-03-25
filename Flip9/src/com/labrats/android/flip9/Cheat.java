@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Cheat {
-
+	//Initialize variables
 	private static final int[] masks = { 11, 23, 38, 89, 186, 308, 200, 464,
 			416 };
 
@@ -34,6 +34,7 @@ public class Cheat {
 		return ans;
 	}
 
+	//Breadth-first search
 	private static void bfs(int c) {
 		ArrayDeque<Integer> q = new ArrayDeque<Integer>(10);
 		visited[c] = true;

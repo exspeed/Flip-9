@@ -20,7 +20,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 public class UserData {
-
+	//Initialize variables 
 	private static UserData sUserData;
 	private ArrayList<FlipData> mLevelList;
 	private Context mContext;
@@ -29,6 +29,7 @@ public class UserData {
 	private TypedArray mColorPalette;
 	private int mColorIndex;
 
+	//Try to load data 
 	private UserData(Context c) {
 		mContext = c;
 		try {
@@ -53,6 +54,7 @@ public class UserData {
 		}
 	}
 
+	//Setters and getters
 	public static UserData get(Context c) {
 		if (sUserData == null) {
 			sUserData = new UserData(c.getApplicationContext());
@@ -87,6 +89,7 @@ public class UserData {
 		}
 	}
 
+	//Save Data
 	public void saveData() throws JSONException, IOException {
 		JSONArray jsonArray = new JSONArray();
 		boolean lastCompletedLevelFound = false;
@@ -121,6 +124,7 @@ public class UserData {
 
 	}
 
+	//Load data
 	public void loadData() throws IOException, JSONException {
 		BufferedReader reader = null;
 		mLevelList = new ArrayList<FlipData>();

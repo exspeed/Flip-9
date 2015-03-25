@@ -13,8 +13,10 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 public class ColorSelectDialog extends DialogFragment {
+	//Initialize variables
 	ImageButton[] colorButtons = new ImageButton[8];
 
+	//What the ColorSelectDialog will have when it pops up
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View v = getActivity().getLayoutInflater().inflate(

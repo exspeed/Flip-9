@@ -19,7 +19,7 @@ import android.widget.TextView;
 import android.widget.AbsListView.SelectionBoundsAdjuster;
 
 public class CompleteDialog extends DialogFragment {
-
+	//Initialize variables
 	public static final String EXTRA_NEXT = "next";
 	public static final String EXTRA_SCORE ="stars";
 
@@ -28,6 +28,7 @@ public class CompleteDialog extends DialogFragment {
 	private TextView mMotivationTextView;
 	private RatingBar mRatingBar;
 
+	//Complete dialog when completing a puzzle 
 	public static CompleteDialog newInstance(int numOfStars) {
 		Bundle args = new Bundle();
 		args.putInt(EXTRA_SCORE, numOfStars);
@@ -37,13 +38,14 @@ public class CompleteDialog extends DialogFragment {
 		return fragment;
 	}
 
+	//Set ups what the dioalong box will have when it pops up
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 
 		View v = getActivity().getLayoutInflater().inflate(
 				R.layout.complete_fragment, null);
 		mMotivationTextView = (TextView) v.findViewById(R.id.congratsTextView);
-		
+		//Generate random motivation message
 		Random rand = new Random();
 		int index = rand.nextInt(MOTIVATION.length);
 		mMotivationTextView.setText(MOTIVATION[index]);
@@ -56,7 +58,7 @@ public class CompleteDialog extends DialogFragment {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
 		builder.setView(v);
-
+		//Listener for "Next" button
 		builder.setPositiveButton("Next", new OnClickListener() {
 
 			@Override
@@ -68,7 +70,7 @@ public class CompleteDialog extends DialogFragment {
 						Activity.RESULT_OK, i);
 			}
 		});
-
+		//Listener for "Retry" button
 		builder.setNegativeButton("Retry", new OnClickListener() {
 
 			@Override
@@ -83,6 +85,7 @@ public class CompleteDialog extends DialogFragment {
 		return builder.create();
 	}
 	
+	//Determines how many stars the user got on the puzzle
 	public int getStars(int score){
 		if(score <= 10)
 			return 3;

@@ -6,7 +6,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class FlipData {
-
+	//Initialize variables
 	public static final String JSON_BESTSCORE = "best score";
 	public static final String JSON_STARS = "stars";
 	public static final String JSON_START = "start";
@@ -23,12 +23,14 @@ public class FlipData {
 	private int mStart;
 	private String mTitle;
 
+	//FlipData constructor
 	public FlipData(int puzzle) {
 		mStart = puzzle;
 		mCurrentState = puzzle;
 		mId = UUID.randomUUID();
 	}
 
+	//Loads data 
 	public FlipData(JSONObject json) throws JSONException {
 
 		mStart = (Integer) json.get(JSON_START);
@@ -40,6 +42,7 @@ public class FlipData {
 
 	}
 
+	//Makes a new JSON file to save to
 	public JSONObject toJSON() throws JSONException {
 		JSONObject json = new JSONObject();
 
@@ -52,6 +55,7 @@ public class FlipData {
 		return json;
 	}
 
+	//Setters and getters
 	public void setTitle(String title) {
 		mTitle = title;
 	}

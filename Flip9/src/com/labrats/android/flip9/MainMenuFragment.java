@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 public class MainMenuFragment extends Fragment {
+	//Initializing variables
 	private Button mClassicButton;
 	private Button mTimeTrialButton;
 	private Button mNightmareButton;
@@ -25,7 +26,7 @@ public class MainMenuFragment extends Fragment {
 			Bundle savedInstanceState) {
 		View v = inflater
 				.inflate(R.layout.activity_main_menu, container, false);
-
+		//Listener for Classic mode
 		mClassicButton = (Button)v.findViewById(R.id.Classic);
 		mClassicButton.setOnClickListener(new OnClickListener() {
 			
@@ -37,7 +38,7 @@ public class MainMenuFragment extends Fragment {
 				startActivity(i);
 			}
 		});
-		
+		//Listener for time trial mode
 		mTimeTrialButton = (Button)v.findViewById(R.id.Time_Trial);
 		mTimeTrialButton.setOnClickListener(new OnClickListener() {
 			
@@ -48,7 +49,7 @@ public class MainMenuFragment extends Fragment {
 				
 			}
 		});
-		
+		//Listener for nightmare mode
 		mNightmareButton = (Button) v.findViewById(R.id.Nightmare);
 		mNightmareButton.setOnClickListener(new OnClickListener() {
 			
@@ -59,7 +60,7 @@ public class MainMenuFragment extends Fragment {
 				
 			}
 		});
-		
+		//Listener for settings 
 		mTimeTrialButton = (Button) v.findViewById(R.id.Settings);
 		mTimeTrialButton.setOnClickListener(new OnClickListener() {
 			
