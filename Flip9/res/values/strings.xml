@@ -14,5 +14,6 @@
     <string name="time">Time Trial</string>
     <string name="nightmare">Nightmare</string>
     <string name="setting">Settings</string>
+    <string name="title_activity_time_trial">TimeTrialActivity</string>
 
 </resources>

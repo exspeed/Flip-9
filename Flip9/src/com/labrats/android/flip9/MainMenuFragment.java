@@ -32,8 +32,6 @@ public class MainMenuFragment extends Fragment {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Log.e("Hi", "Classic Menu");
 				Intent i = new Intent(getActivity(), PuzzleListActivity.class);
 				startActivity(i);
 			}
@@ -44,8 +42,8 @@ public class MainMenuFragment extends Fragment {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Log.e("Hi", "Time Trial Menu");
+				Intent i = new Intent(getActivity(), TimeTrialActivity.class);
+				startActivity(i);
 				
 			}
 		});
