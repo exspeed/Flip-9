@@ -1,26 +1,17 @@
 package com.labrats.android.flip9;
 
-import java.util.ArrayList;
-import java.util.Stack;
-import java.util.UUID;
-
-import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Rect;
 import android.graphics.drawable.GradientDrawable;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
@@ -32,15 +23,15 @@ import android.widget.PopupWindow;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
 import java.util.Random;
 
-
-public class TimeTrialFragment extends Fragment{
+public class TimeTrialFragment extends Fragment {
 	private final int TOTALPUZZLE = 511;
 	private FlipData mFlipData;
-	private Button mTileButtons [] = new Button[9];
+	private Button mTileButtons[] = new Button[9];
 	private TextView mCurrentScore;
-	private Button mUndoButton;
+	private TextView mTimer;
 	private ImageButton mInfoButton;
 	private Button mRestartButton;
 	private MediaPlayer mSoundEffect;
@@ -50,20 +41,26 @@ public class TimeTrialFragment extends Fragment{
 	private Animation mVerticalOut;
 	private Random rand;
 	private Timer countDown;
-	
-	
-	
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
-		View v = inflater.inflate(R.layout.activity_time_trial,container, false);
-		
-		TextView timeTrialTimer = (TextView) v.findViewById(R.id.TimeTrialTimer);
-		//Timer stuff
-		countDown = new Timer(Timer.TWOMNUTES, Timer.ONESECOND, timeTrialTimer);
+		View v = inflater.inflate(R.layout.activity_time_trial, container,
+				false);
+
+		TextView mTimer = (TextView) v
+				.findViewById(R.id.TimeTrialTimer);
+		// Timer stuff
+		countDown = new Timer(Timer.ONEMINUTE, Timer.ONESECOND, mTimer) {
+			@Override
+			public void onComplete() {
+				for (Button tile : mTileButtons) {
+					tile.setEnabled(false);
+				}
+			}
+		};
 		countDown.start();
-		
+
 		TableLayout tableLayout = (TableLayout) v
 				.findViewById(R.id.tablelayout_buttons);
 		// if the layout were to change, this will crash
@@ -79,14 +76,14 @@ public class TimeTrialFragment extends Fragment{
 			}
 
 		}
-		
+
 		initialize();
 		initializeAnimation();
 
-		mCurrentScore = (TextView) v.findViewById(R.id.bestButton);
+		mCurrentScore = (TextView) v.findViewById(R.id.bestView);
 		mCurrentString = mCurrentScore.getText().toString() + "\n";
-		mCurrentScore.setText(mCurrentString+mScore);
-		
+		mCurrentScore.setText(mCurrentString + mScore);
+
 		mInfoButton = (ImageButton) v.findViewById(R.id.infoButton);
 		mInfoButton.setOnClickListener(new OnClickListener() {
 
@@ -111,7 +108,7 @@ public class TimeTrialFragment extends Fragment{
 				infoPopUp.update();
 			}
 		});
-		
+
 		mRestartButton = (Button) v.findViewById(R.id.restartButton);
 		mRestartButton.setOnClickListener(new OnClickListener() {
 
@@ -120,10 +117,11 @@ public class TimeTrialFragment extends Fragment{
 				restart();
 			}
 		});
-		
+
 		return v;
-		
+
 	}
+
 	/*
 	 * Used William J. Francis scale animation tutorial as reference for code
 	 * below http://www.techrepublic.com/blog/software-engineer/
@@ -152,7 +150,7 @@ public class TimeTrialFragment extends Fragment{
 			}
 		});
 	}
-	
+
 	int touchedTile = 0;
 
 	private void startAnimation(int index, Animation anim) {
@@ -172,7 +170,6 @@ public class TimeTrialFragment extends Fragment{
 		mFlipData = new FlipData(puzzle);
 		updateChange();
 		countDown.start();
-		
 
 		for (Button tile : mTileButtons) {
 			if (tile.isEnabled() == false)
@@ -181,7 +178,7 @@ public class TimeTrialFragment extends Fragment{
 		}
 
 	}
-	
+
 	private void initialize() {
 		// find FlipData that corresponds to the puzzle
 		rand = new Random();
@@ -219,7 +216,7 @@ public class TimeTrialFragment extends Fragment{
 						.getBackground();
 				background.mutate();
 				background.setColor(UserData.get(getActivity()).getColor());
-				
+
 			}
 			temp >>= 1;
 		}
@@ -227,15 +224,16 @@ public class TimeTrialFragment extends Fragment{
 
 	private void checkCompleted() {
 		if (mFlipData.getCurrentState() == 0) {
-			mScore+=1;
-			mCurrentScore.setText(mCurrentString+mScore);
+			mScore += 1;
+			mCurrentScore.setText(mCurrentString + mScore);
 			int puzzle = rand.nextInt(TOTALPUZZLE);
 			mFlipData = new FlipData(puzzle);
 			updateChange();
 		}
 	}
 
-	
+
+
 	private class TileListener2 implements OnTouchListener {
 
 		private final int POSITION;
@@ -277,7 +275,7 @@ public class TimeTrialFragment extends Fragment{
 					startAnimation(POSITION, mVerticalIn);
 
 					checkCompleted();
-					
+
 				}
 				cancel = false;
 				break;
@@ -305,7 +303,7 @@ public class TimeTrialFragment extends Fragment{
 				@Override
 				public void onCompletion(MediaPlayer mp) {
 					/*
-					  if(mp == mSoundEffect){ mSoundEffect.start(); }
+					 * if(mp == mSoundEffect){ mSoundEffect.start(); }
 					 */
 
 					if (mSoundEffect != null) {
@@ -323,6 +321,3 @@ public class TimeTrialFragment extends Fragment{
 	}
 
 }
-
-
-

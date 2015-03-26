@@ -35,6 +35,7 @@
             android:theme="@android:style/Theme.Holo.Light" >
         </activity>
         <activity
+            android:screenOrientation="portrait"
             android:name=".TimeTrialActivity"
             android:label="@string/title_activity_time_trial" >
         </activity>

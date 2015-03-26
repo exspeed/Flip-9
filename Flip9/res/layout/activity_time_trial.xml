@@ -43,7 +43,7 @@
             android:typeface="sans" />
 
         <TextView
-            android:id="@+id/bestButton"
+            android:id="@+id/bestView"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="0dp"
             android:layout_height="match_parent"

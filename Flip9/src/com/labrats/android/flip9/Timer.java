@@ -5,8 +5,8 @@ import java.util.concurrent.TimeUnit;
 import android.os.CountDownTimer;
 import android.widget.TextView;
 
-public class Timer extends CountDownTimer {
-	public static final int TWOMNUTES = 120999;
+public abstract class Timer extends CountDownTimer {
+	public static final int ONEMINUTE = 60999;
 	public static final int ONESECOND = 1000;
 	private TextView clock;
 
@@ -39,16 +39,9 @@ public class Timer extends CountDownTimer {
 	public void onFinish() {
 		String done = "Game Over";
 		clock.setText(done);
+		onComplete();
 
-	}/*
-	 * public void onTick(long millisUntilFinished, TextView v){ long millis =
-	 * millisUntilFinished; hms = String.format("%02d:%02d:%02d",
-	 * TimeUnit.MICROSECONDS.toHours(millis),
-	 * TimeUnit.MICROSECONDS.toMinutes(millis) -
-	 * TimeUnit.HOURS.toMinutes(TimeUnit.MICROSECONDS.toHours(millis)),
-	 * TimeUnit.
-	 * MICROSECONDS.toSeconds(millis)-TimeUnit.MINUTES.toSeconds(TimeUnit
-	 * .MICROSECONDS.toMinutes(millis))); //v.setText(hms); }
-	 */
-
+	}
+	
+	public abstract void onComplete();
 }
